@@ -1,0 +1,33 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackX.Flow", "src\StackX.Flow\StackX.Flow.csproj", "{8BB5F0C3-30D2-4452-A7DD-C28AECC1FC90}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackX.Flow.Data", "src\StackX.Flow.Data\StackX.Flow.Data.csproj", "{80AD7F02-A196-40C6-9413-1CC893CFFD02}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StackX.Flow.Tests", "tests\StackX.Flow.Tests\StackX.Flow.Tests.csproj", "{F1B907AA-3827-4C88-8063-D50D1DC3CB33}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{8EB72883-F724-4DDE-A023-81702B02E3E6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{8BB5F0C3-30D2-4452-A7DD-C28AECC1FC90}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8BB5F0C3-30D2-4452-A7DD-C28AECC1FC90}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8BB5F0C3-30D2-4452-A7DD-C28AECC1FC90}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8BB5F0C3-30D2-4452-A7DD-C28AECC1FC90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{80AD7F02-A196-40C6-9413-1CC893CFFD02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{80AD7F02-A196-40C6-9413-1CC893CFFD02}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{80AD7F02-A196-40C6-9413-1CC893CFFD02}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{80AD7F02-A196-40C6-9413-1CC893CFFD02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1B907AA-3827-4C88-8063-D50D1DC3CB33}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1B907AA-3827-4C88-8063-D50D1DC3CB33}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1B907AA-3827-4C88-8063-D50D1DC3CB33}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1B907AA-3827-4C88-8063-D50D1DC3CB33}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F1B907AA-3827-4C88-8063-D50D1DC3CB33} = {8EB72883-F724-4DDE-A023-81702B02E3E6}
+	EndGlobalSection
+EndGlobal
