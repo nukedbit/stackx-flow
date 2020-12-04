@@ -1,7 +1,9 @@
-﻿namespace StackX.Flow
+﻿using System.Threading.Tasks;
+
+namespace StackX.Flow
 {
     public abstract class CanExecuteFlowElement : FlowElement
     {
-        internal abstract bool CanExecuteInternal(object args, FlowState state);
+        internal abstract Task<bool> CanExecuteInternalAsync(object args, FlowState state);
     }
 }

@@ -18,20 +18,20 @@ namespace StackX.Flow
         /// <param name="args">Task Argument Object</param>
         /// <param name="state">Pipe Status Object</param>
         /// <returns></returns>
-        protected virtual bool CanExecute(TSArgs args, FlowState state)
+        protected virtual Task<bool> CanExecuteAsync(TSArgs args, FlowState state)
         {
-            return true;
+            return Task.FromResult(true);
         }
         
-        internal override bool CanExecuteInternal(object args, FlowState state)
+        internal override async Task<bool> CanExecuteInternalAsync(object args, FlowState state)
         {
             if (args is TSArgs tsArgs)
-                return CanExecute(tsArgs, state);
+                return await CanExecuteAsync(tsArgs, state);
             if (Converters.Length == 0)
-                return CanExecute((TSArgs)args, state);
+                return await CanExecuteAsync((TSArgs)args, state);
             var converter = Converters.SingleOrDefault(t => t.CanConvert(args.GetType()));
             var input = converter == null ? args : converter.Convert(args);
-            return CanExecute((TSArgs)input, state);
+            return await CanExecuteAsync((TSArgs)input, state);
         }
 
         /// <summary>

@@ -21,8 +21,8 @@ namespace StackX.Pipeline.Tests
             var element = new Mock<FlowElement<string>>();
             element
                 .Protected()
-                .Setup<bool>("CanExecute", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
-                .Returns(true);
+                .Setup<Task<bool>>("CanExecuteAsync", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
+                .ReturnsAsync(true);
             element
                 .Protected()
                 .Setup<Task<FlowElementResult>>("OnExecuteAsync", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
@@ -392,6 +392,49 @@ namespace StackX.Pipeline.Tests
                 .Should()
                 .Be(3);
 
+        }
+
+
+        [Test]
+        public async Task SimpleFlowElementBuilderExecute()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New<int>()
+                        .Yes()
+                        .OnExecute(async (i, state) =>  i * 2)
+                        .Build()
+                ).Build<int>();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowSuccessResult>()
+                .Which.Result
+                .Should().Be(8);
+        }
+        
+        [Test]
+        public async Task SimpleFlowElementCanExecuteNo()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New<int>()
+                        .CanExecute(async (i, _) => i == 42)
+                        .OnExecute(async (i, _) =>  i * 2)
+                        .Build()
+                ).Build<int>();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowSuccessResult>()
+                .Which.Result
+                .Should().Be(4);
         }
     }
 }

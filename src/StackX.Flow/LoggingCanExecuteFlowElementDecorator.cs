@@ -40,13 +40,13 @@ namespace StackX.Flow
             }
         }
 
-        internal override bool CanExecuteInternal(object args, FlowState state)
+        internal override async Task<bool> CanExecuteInternalAsync(object args, FlowState state)
         {
             if (!IsLoggingEnabled)
-                return _element.CanExecuteInternal(args, state);
+                return await _element.CanExecuteInternalAsync(args, state);
             try
             {
-                var res = _element.CanExecuteInternal(args, state);
+                var res = await _element.CanExecuteInternalAsync(args, state);
                 if (_logger.IsDebugEnabled)
                 {
                     _logger.Debug($"CanExecuteAsyncInternal result={res}, args={JsonSerializer.SerializeToString(args)}");
