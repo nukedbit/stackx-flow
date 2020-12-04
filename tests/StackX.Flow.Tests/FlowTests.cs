@@ -93,7 +93,7 @@ namespace StackX.Pipeline.Tests
             
             var pipeline = new FlowBuilder()
                 .Add(
-                    DataTaskBuilder.New()
+                    DataFlowElementBuilder.New()
                         .SetConnection(db)
                         .Read<Person, int>()
                         .Query(args => args.Expression.Where(p => p.Id == args.PipeArgs))
@@ -121,7 +121,7 @@ namespace StackX.Pipeline.Tests
             
             var pipeline = new FlowBuilder()
                 .Add(
-                    DataTaskBuilder.New()
+                    DataFlowElementBuilder.New()
                         .SetConnection(db)
                         .Read<Person, int>()
                         .Query(args => args.Expression.Where(p => p.Id == args.PipeArgs))
@@ -162,7 +162,7 @@ namespace StackX.Pipeline.Tests
             
             var pipeline = new FlowBuilder()
                 .Add(
-                    DataTaskBuilder.New()
+                    DataFlowElementBuilder.New()
                         .SetConnection(db)
                         .Read<Person, int>()
                         .Query(args => args.Expression.Limit(1))
@@ -258,7 +258,7 @@ namespace StackX.Pipeline.Tests
             
             var flow = new FlowBuilder()
                 .Add(
-                    DataTaskBuilder.New()
+                    DataFlowElementBuilder.New()
                         .SetConnection(db)
                         .Delete<Person, int>()
                         .DeleteById(i => i)
@@ -295,7 +295,7 @@ namespace StackX.Pipeline.Tests
             
             var flow = new FlowBuilder()
                 .Add(
-                    DataTaskBuilder.New()
+                    DataFlowElementBuilder.New()
                         .SetConnection(db)
                         .Delete<Person, int[]>()
                         .DeleteByIds(i => i)
@@ -336,7 +336,7 @@ namespace StackX.Pipeline.Tests
             
             var flow = new FlowBuilder()
                 .Add(
-                    DataTaskBuilder.New()
+                    DataFlowElementBuilder.New()
                         .SetConnection(db)
                         .Delete<Person, object>()
                         .DeleteAll()
@@ -376,7 +376,7 @@ namespace StackX.Pipeline.Tests
 
             var flow = new FlowBuilder()
                 .Add(
-                    DataTaskBuilder.New()
+                    DataFlowElementBuilder.New()
                         .SetConnection(db)
                         .Delete<Person, int[]>()
                         .DeleteBy(ints => person => ints.Contains(person.Id))

@@ -34,14 +34,14 @@ namespace StackX.Flow.Data
         FlowElement Build();
     }
 
-    internal class DataTaskBuilderRead<TTable,TArgs> : DataTaskBuilder, IReadQueryBuilder<TTable, TArgs>, IReadQueryModifiers<TTable, TArgs>, IQueryPipeBuilder
+    internal class DataFlowElementBuilderRead<TTable,TArgs> : DataFlowElementBuilder, IReadQueryBuilder<TTable, TArgs>, IReadQueryModifiers<TTable, TArgs>, IQueryPipeBuilder
     {
         private Func<QueryBuilderArgs<TTable,TArgs>, SqlExpression<TTable>> _queryBuilder;
         private string? _onEmptyOrNullRaiseError = null;
         private QuerySqlSelect _sqlSelect;
         private SelectType _selectType = SelectType.List;
         
-        internal DataTaskBuilderRead(IDbConnection? connection)
+        internal DataFlowElementBuilderRead(IDbConnection? connection)
         {
             _connection = connection;
         }

@@ -18,11 +18,11 @@ namespace StackX.Flow.Data
         List
     }
     
-    public class DataTaskBuilder
+    public class DataFlowElementBuilder
     {
         protected IDbConnection? _connection;
         
-        public DataTaskBuilder SetConnection(IDbConnection connection)
+        public DataFlowElementBuilder SetConnection(IDbConnection connection)
         {
             _connection = connection;
             return this;
@@ -30,7 +30,7 @@ namespace StackX.Flow.Data
 
         public IReadQueryBuilder<TTable,TArgs> Read<TTable,TArgs>()
         {
-            return new DataTaskBuilderRead<TTable,TArgs>(_connection);
+            return new DataFlowElementBuilderRead<TTable,TArgs>(_connection);
         }
         
         public IWriteQueryBuilder<TTable,TArgs> Write<TTable,TArgs>()
@@ -43,9 +43,9 @@ namespace StackX.Flow.Data
             return new DeleteQueryBuilder<TTable, TArgs>(_connection);
         }
         
-        internal DataTaskBuilder () {}
+        internal DataFlowElementBuilder () {}
 
-        public static DataTaskBuilder New() => new();
+        public static DataFlowElementBuilder New() => new();
 
     }
 }
