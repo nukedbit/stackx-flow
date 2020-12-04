@@ -241,5 +241,157 @@ namespace StackX.Pipeline.Tests
                 .Add<FakeElementReturnA>()
             ).Message.Should().Be("You can't add another element after a Decision");
         }
+
+
+        [Test]
+        public async Task FlowDeleteById()
+        {
+            var factory = new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider);
+
+            var db = await factory.OpenDbConnectionAsync();
+            
+            db.CreateTable<Person>();
+            db.Save(new Person()
+            {
+                Name = "Mario"
+            });
+            
+            var flow = new FlowBuilder()
+                .Add(
+                    DataTaskBuilder.New()
+                        .SetConnection(db)
+                        .Delete<Person, int>()
+                        .DeleteById(i => i)
+                        .Build()
+                ).Build<int>();
+
+            await flow.RunAsync(1);
+
+            var persons = await db.SelectAsync<Person>();
+            persons.Should().BeEmpty();
+        }
+        
+        [Test]
+        public async Task FlowDeleteByIds()
+        {
+            var factory = new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider);
+
+            var db = await factory.OpenDbConnectionAsync();
+            db.CreateTable<Person>();
+            await db.SaveAsync(new Person()
+            {
+                Name = "Mario"
+            });
+            
+            await db.SaveAsync(new Person()
+            {
+                Name = "Luigi"
+            });
+            
+            await db.SaveAsync(new Person()
+            {
+                Name = "Highlander"
+            });
+            
+            var flow = new FlowBuilder()
+                .Add(
+                    DataTaskBuilder.New()
+                        .SetConnection(db)
+                        .Delete<Person, int[]>()
+                        .DeleteByIds(i => i)
+                        .Build()
+                ).Build<int[]>();
+
+            await flow.RunAsync(new[] {1, 2});
+
+            var persons = await db.SelectAsync<Person>();
+            persons.Single()
+                .Name
+                .Should()
+                .Be("Highlander");
+        }
+        
+        
+        [Test]
+        public async Task FlowDeleteAll()
+        {
+            var factory = new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider);
+
+            var db = await factory.OpenDbConnectionAsync();
+            db.CreateTable<Person>();
+            await db.SaveAsync(new Person()
+            {
+                Name = "Mario"
+            });
+            
+            await db.SaveAsync(new Person()
+            {
+                Name = "Luigi"
+            });
+            
+            await db.SaveAsync(new Person()
+            {
+                Name = "Highlander"
+            });
+            
+            var flow = new FlowBuilder()
+                .Add(
+                    DataTaskBuilder.New()
+                        .SetConnection(db)
+                        .Delete<Person, object>()
+                        .DeleteAll()
+                        .Build()
+                ).Build<object>();
+
+            await flow.RunAsync("anything");
+
+            var persons = await db.SelectAsync<Person>();
+            persons
+                .Should()
+                .BeEmpty();
+
+        }
+        
+        [Test]
+        public async Task FlowDeleteByExpression()
+        {
+            var factory = new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider);
+
+            var db = await factory.OpenDbConnectionAsync();
+            db.CreateTable<Person>();
+            await db.SaveAsync(new Person()
+            {
+                Name = "Mario"
+            });
+            
+            await db.SaveAsync(new Person()
+            {
+                Name = "Luigi"
+            });
+            
+            await db.SaveAsync(new Person()
+            {
+                Name = "Highlander"
+            });
+
+            var flow = new FlowBuilder()
+                .Add(
+                    DataTaskBuilder.New()
+                        .SetConnection(db)
+                        .Delete<Person, int[]>()
+                        .DeleteBy(ints => person => ints.Contains(person.Id))
+                        .Build()
+                ).Build<int[]>();
+
+            await flow.RunAsync(new[] {1, 2});
+
+            var persons = await db.SelectAsync<Person>();
+            persons
+                .Single()
+                .Id
+                .Should()
+                .Be(3);
+
+        }
     }
 }
