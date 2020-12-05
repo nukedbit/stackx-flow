@@ -23,13 +23,13 @@ namespace StackX.Flow
         public bool IsLoggingEnabled { get; private set; }
 
 
-        public async Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
+        public async Task<FlowElementResult> ExecuteAsync(object args, FlowState state)
         {
             if (!IsLoggingEnabled)
-                return await _element.ExecuteInternalAsync(args, state);
+                return await _element.ExecuteAsync(args, state);
             try
             {
-                var res = await _element.ExecuteInternalAsync(args, state);
+                var res = await _element.ExecuteAsync(args, state);
                 _logger.Info($"ExecuteAsyncInternal result={res}, args={JsonSerializer.SerializeToString(args)}");
                 return res;
             }

@@ -11,11 +11,11 @@ namespace StackX.Flow
 
     public abstract class Filter : IFilter
     {
-        protected abstract Task<FlowElementResult> ExecuteAsync(object input, FlowState state);
+        protected abstract Task<FlowElementResult> OnExecuteAsync(object input, FlowState state);
 
-        public Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
+        public Task<FlowElementResult> ExecuteAsync(object args, FlowState state)
         {
-            return ExecuteAsync(args, state);
+            return OnExecuteAsync(args, state);
         }
     }
 }

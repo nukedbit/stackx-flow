@@ -21,7 +21,7 @@ namespace StackX.Pipeline.Tests
             var element = new Mock<FlowElement>();
             element
                 .Protected()
-                .Setup<Task<bool>>("CanExecuteAsync", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
+                .Setup<Task<bool>>("OnCanExecuteAsync", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
                 .ReturnsAsync(true);
             element
                 .Protected()

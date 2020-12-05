@@ -49,7 +49,7 @@ namespace StackX.Flow
                 _onExecute = onExecute;
             }
 
-            protected override async Task<bool> CanExecuteAsync(object args, FlowState state)
+            protected override async Task<bool> OnCanExecuteAsync(object args, FlowState state)
             {
                 return await _canExecute(args, state);
             }

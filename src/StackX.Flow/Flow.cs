@@ -48,7 +48,7 @@ namespace StackX.Flow
             var @value = result.Result;
             if (_restartFilter != null)
             {
-                @value = _restartFilter.ExecuteInternalAsync(result,state).Result;
+                @value = _restartFilter.ExecuteAsync(result,state).Result;
             }
             return value;
         }
@@ -69,7 +69,7 @@ namespace StackX.Flow
                 
                 if (element is IFlowElementExecute flowElement)
                 {
-                    var r = await flowElement.ExecuteInternalAsync(result.Result, pipeState);
+                    var r = await flowElement.ExecuteAsync(result.Result, pipeState);
                     if (r is DecisionFlowElementSuccess decisionResult)
                     {
                         elements = decisionResult.Result as List<IFlowElementExecute>;
@@ -111,7 +111,7 @@ namespace StackX.Flow
             {
                 if (elementExecute is IFlowElementCanExecute canExecute)
                 {
-                    return await canExecute.CanExecuteInternalAsync(currentInput, state);
+                    return await canExecute.CanExecuteAsync(currentInput, state);
                 }
                 return true;
             }

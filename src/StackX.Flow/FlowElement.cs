@@ -11,7 +11,7 @@ namespace StackX.Flow
     /// In the Execute override you can write your own task logic
     /// </summary>
     /// <typeparam name="TSArgs"></typeparam> 
-    public abstract class FlowElement : IFlowElementExecute, IFlowElementCanExecute
+    public abstract class FlowElement : IFlowElementCanExecute
     {
         /// <summary>
         /// Determine if the task can be executed by default it's always true
@@ -19,15 +19,15 @@ namespace StackX.Flow
         /// <param name="args">Task Argument Object</param>
         /// <param name="state">Pipe Status Object</param>
         /// <returns></returns>
-        protected virtual Task<bool> CanExecuteAsync(object args, FlowState state)
+        protected virtual Task<bool> OnCanExecuteAsync(object args, FlowState state)
         {
             return Task.FromResult(true);
         }
 
 
-        public async Task<bool> CanExecuteInternalAsync(object args, FlowState state)
+        public async Task<bool> CanExecuteAsync(object args, FlowState state)
         {
-            return await CanExecuteAsync(args, state);
+            return await OnCanExecuteAsync(args, state);
         }
 
         /// <summary>
@@ -38,7 +38,7 @@ namespace StackX.Flow
         /// <returns></returns>
         protected abstract Task<FlowElementResult> OnExecuteAsync(object args, FlowState state);
         
-        public async Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
+        public async Task<FlowElementResult> ExecuteAsync(object args, FlowState state)
         {
             try
             {
