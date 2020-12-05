@@ -506,5 +506,30 @@ namespace StackX.Pipeline.Tests
                 .Which.ErrorObject
                 .Should().Be("error");
         }
+        
+        
+        [Test]
+        public async Task SimpleFlowElementMap()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New()
+                        .CanExecuteContinue()
+                        .OnExecute(async (i, _) => (int)i * 2)
+                        .Build()
+                        .Map(async (result, args, state) => (int) result.Result * 2)
+                )
+                .Build();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowSuccessResult>()
+                .Which.Result
+                .Should()
+                .Be(16);
+        }
     }
 }
