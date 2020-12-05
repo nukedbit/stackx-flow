@@ -579,5 +579,52 @@ namespace StackX.Pipeline.Tests
                 .Should()
                 .Be(42);
         }
+        
+        
+        [TestCase(1)]
+        [TestCase(2)]
+        [TestCase(3)]
+        public async Task ExecuteCustomDbStep(int id)
+        {
+            var factory = new OrmLiteConnectionFactory(":memory:", SqliteDialect.Provider);
+
+            var db = await factory.OpenDbConnectionAsync();
+            db.CreateTable<Person>();
+            db.Save(new Person()
+            {
+                Name = "Mario"
+            });
+
+            db.Save(new Person()
+            {
+                Name = "Princess"
+            });
+            
+            db.Save(new Person()
+            {
+                Name = "Luigi"
+            });
+            
+            var pipeline = new FlowBuilder()
+                .Add(
+                    DataFlowElementBuilder.New()
+                        .SetConnection(db)
+                        .Custom()
+                        .CanExecuteContinue()
+                        .OnExecute(async args => await args.Db.SingleAsync<Person>(p => p.Id == (int)args.args))
+                        .Build()
+                ).Build();
+
+            var result = await pipeline.RunAsync(id);
+
+            result.Should()
+                .BeOfType<FlowSuccessResult>()
+                .Which.Result
+                .Should()
+                .BeOfType<Person>()
+                .Which.Id
+                .Should()
+                .Be(id);
+        }
     }
 }
