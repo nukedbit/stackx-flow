@@ -518,7 +518,7 @@ namespace StackX.Pipeline.Tests
                         .CanExecuteContinue()
                         .OnExecute(async (i, _) => (int)i * 2)
                         .Build()
-                        .Map(async (result, args, state) => (int) result.Result * 2)
+                        .Map(async (result, _, _) => (int) result.Result * 2)
                 )
                 .Build();
 
@@ -530,6 +530,54 @@ namespace StackX.Pipeline.Tests
                 .Which.Result
                 .Should()
                 .Be(16);
+        }
+        
+        [Test]
+        public async Task SimpleFlowElementMapOnSuccess()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New()
+                        .CanExecuteContinue()
+                        .OnExecute(async (i, _) => (int)i * 2)
+                        .Build()
+                        .MapOnSuccess(async (result, _, _) => (int) result.Result * 2)
+                )
+                .Build();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowSuccessResult>()
+                .Which.Result
+                .Should()
+                .Be(16);
+        }
+        
+        [Test]
+        public async Task SimpleFlowElementMapOnError()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New()
+                        .CanExecuteContinue()
+                        .OnExecute(async (_, _) => new FlowErrorResult() { ErrorObject = "failed"})
+                        .Build()
+                        .MapOnError(async (_, _, _) => 42)
+                )
+                .Build();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowSuccessResult>()
+                .Which.Result
+                .Should()
+                .Be(42);
         }
     }
 }
