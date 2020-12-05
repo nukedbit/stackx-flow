@@ -70,6 +70,20 @@ namespace StackX.Flow
             AddDecorated(elementExecute);
             return this;
         }
+        
+        public FlowBuilder Add(params IFlowElementExecute[] elements)
+        {
+            foreach (var elementExecute in elements)
+            {
+                if (UnWrap(_pipelineElements.LastOrDefault()) is DecisionElement)
+                {
+                    throw new ArgumentException("You can't add another element after a Decision");
+                }
+                AddDecorated(elementExecute);
+            }
+            
+            return this;
+        }
 
         private IFlowElementExecute UnWrap(IFlowElementExecute elementExecute)
         {

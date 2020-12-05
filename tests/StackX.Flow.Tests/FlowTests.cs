@@ -487,16 +487,15 @@ namespace StackX.Pipeline.Tests
                     FlowElementBuilder
                         .New()
                         .CanExecute(async (i, _) => CanExecuteResult.Error("error"))
-                        .OnExecute(async (i, _) =>  throw new Exception("Should not execute step 1"))
+                        .OnExecute(async (i, _) => throw new Exception("Should not execute step 1"))
                         .Build()
-                )
-                .Add(
+                    ,
                     FlowElementBuilder
                         .New()
                         .CanExecute(async (i, _) => CanExecuteResult.Continue)
-                        .OnExecute(async (i, _) =>  throw new Exception("Should not execute step 2"))
+                        .OnExecute(async (i, _) => throw new Exception("Should not execute step 2"))
                         .Build()
-                    )
+                )
                 .Build();
 
             var flowResult = await flow.RunAsync(4);
