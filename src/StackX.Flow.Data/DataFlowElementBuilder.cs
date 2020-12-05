@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace StackX.Flow.Data
 {
-    public record QueryBuilderArgs<TQuery, TArgs>(SqlExpression<TQuery> Expression, TArgs PipeArgs);
+    public record QueryBuilderArgs<TQuery>(SqlExpression<TQuery> Expression, object PipeArgs);
 
     internal record QuerySqlSelect(string sql, object? anonType);
 
@@ -28,19 +28,19 @@ namespace StackX.Flow.Data
             return this;
         }
 
-        public IReadQueryBuilder<TTable,TArgs> Read<TTable,TArgs>()
+        public IReadQueryBuilder<TTable> Read<TTable>()
         {
-            return new DataFlowElementBuilderRead<TTable,TArgs>(_connection);
+            return new DataFlowElementBuilderRead<TTable>(_connection);
         }
         
-        public IWriteQueryBuilder<TTable,TArgs> Write<TTable,TArgs>()
+        public IWriteQueryBuilder<TTable> Write<TTable>()
         {
-            return new DataQueryWriteBuilder<TTable,TArgs>(_connection);
+            return new DataQueryWriteBuilder<TTable>(_connection);
         }
 
-        public IDeleteQueryBuilder<TTable, TArgs> Delete<TTable, TArgs>()
+        public IDeleteQueryBuilder<TTable> Delete<TTable>()
         {
-            return new DeleteQueryBuilder<TTable, TArgs>(_connection);
+            return new DeleteQueryBuilder<TTable>(_connection);
         }
         
         internal DataFlowElementBuilder () {}

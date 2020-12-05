@@ -5,80 +5,80 @@ namespace StackX.Flow
 {
     public static class FlowElementBuilder
     {
-        public static IFlowElementBuilderCanExecute<TArgs> New<TArgs>() => new FlowElementBuilder<TArgs>();
+        public static IFlowElementBuilderCanExecute New() => new FlowElementBuilderImpl();
     }
     
     
-    internal class FlowElementBuilder<TArgs>: IFlowElementBuilderCanExecute<TArgs>, IFlowElementBuilderOnExecute<TArgs>, IFlowElementBuilderBuild<TArgs>
+    internal class FlowElementBuilderImpl: IFlowElementBuilderCanExecute, IFlowElementBuilderOnExecute, IFlowElementBuilderBuild
     {
-        private Func<TArgs, FlowState, Task<bool>> _canExecute;
-        private Func<TArgs, FlowState, Task<object>> _onExecute;
+        private Func<object, FlowState, Task<bool>> _canExecute;
+        private Func<object, FlowState, Task<object>> _onExecute;
          
         
-        public IFlowElementBuilderOnExecute<TArgs> Yes()
+        public IFlowElementBuilderOnExecute CanExecuteYes()
         {
             _canExecute = async (_,_) => true;
             return this;
         }
 
-        public IFlowElementBuilderOnExecute<TArgs> CanExecute(Func<TArgs, FlowState, Task<bool>> canExecute)
+        public IFlowElementBuilderOnExecute CanExecute(Func<object, FlowState, Task<bool>> canExecute)
         {
             _canExecute = canExecute;
             return this;
         }
 
-        public IFlowElementBuilderBuild<TArgs> OnExecute(Func<TArgs, FlowState, Task<object>> onExecute)
+        public IFlowElementBuilderBuild OnExecute(Func<object, FlowState, Task<object>> onExecute)
         {
             _onExecute = onExecute;
             return this;
         }
 
-        public FlowElement Build()
+        public IFlowElementExecute Build()
         {
-            return new FlowElementImpl<TArgs>(_canExecute, _onExecute);
+            return new FlowElementImpl(_canExecute, _onExecute);
         }
         
-        internal class FlowElementImpl<TArgs> : FlowElement<TArgs>
+        internal class FlowElementImpl : FlowElement
         {
-            private readonly Func<TArgs, FlowState, Task<bool>> _canExecute;
-            private readonly Func<TArgs, FlowState, Task<object>> _onExecute;
+            private readonly Func<object, FlowState, Task<bool>> _canExecute;
+            private readonly Func<object, FlowState, Task<object>> _onExecute;
 
-            public FlowElementImpl(Func<TArgs, FlowState,Task<bool>> canExecute, Func<TArgs,FlowState,Task<object>> onExecute)
+            public FlowElementImpl(Func<object, FlowState,Task<bool>> canExecute, Func<object,FlowState,Task<object>> onExecute)
             {
                 _canExecute = canExecute;
                 _onExecute = onExecute;
             }
 
-            protected override async Task<bool> CanExecuteAsync(TArgs args, FlowState state)
+            protected override async Task<bool> CanExecuteAsync(object args, FlowState state)
             {
                 return await _canExecute(args, state);
             }
 
-            protected override async Task<FlowElementResult> OnExecuteAsync(TArgs args, FlowState state)
+            protected override async Task<FlowElementResult> OnExecuteAsync(object args, FlowState state)
             {
                 var result = await _onExecute(args, state);
                 return result switch
                 {
                     FlowElementResult elementResult => elementResult,
-                    object r => new FlowSuccessResult() {Result = r}
+                    object r => new FlowSuccessResult {Result = r}
                 };
             }
         }
     }
 
-    public interface IFlowElementBuilderCanExecute<TArgs>
+    public interface IFlowElementBuilderCanExecute
     {
-        public IFlowElementBuilderOnExecute<TArgs> Yes();
-        public IFlowElementBuilderOnExecute<TArgs> CanExecute(Func<TArgs, FlowState, Task<bool>> canExecute);
+        public IFlowElementBuilderOnExecute CanExecuteYes();
+        public IFlowElementBuilderOnExecute CanExecute(Func<object, FlowState, Task<bool>> canExecute);
     }
     
-    public interface IFlowElementBuilderOnExecute<TArgs>
+    public interface IFlowElementBuilderOnExecute
     {
-        public IFlowElementBuilderBuild<TArgs> OnExecute(Func<TArgs, FlowState, Task<object>> onExecute);
+        public IFlowElementBuilderBuild OnExecute(Func<object, FlowState, Task<object>> onExecute);
     }
 
-    public interface IFlowElementBuilderBuild<TArgs>
+    public interface IFlowElementBuilderBuild
     {
-        public FlowElement Build();
+        public IFlowElementExecute Build();
     }
 }

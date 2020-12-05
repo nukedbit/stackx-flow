@@ -4,24 +4,18 @@ using System.Threading.Tasks;
 
 namespace StackX.Flow
 {
-    public interface IFilter
+    public interface IFilter : IFlowElementExecute
     {
 
     }
 
-    public abstract class Filter<TInput> : FlowElement, IFilter
+    public abstract class Filter : IFilter
     {
+        protected abstract Task<FlowElementResult> ExecuteAsync(object input, FlowState state);
 
-        protected virtual Task<FlowElementResult> ExecuteAsync(TInput input, FlowState state)
+        public Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
         {
-            throw new NotImplementedException(nameof(ExecuteAsync));
-        }
-
-        internal override Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
-        {
-            var converter = Converters.SingleOrDefault(t => t.CanConvert(args.GetType()));
-            var input = converter == null ? args : converter.Convert(args);
-            return ExecuteAsync((TInput)input, state);
+            return ExecuteAsync(args, state);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿namespace StackX.Flow
 {
-    public abstract class RestartFilter : Filter<FlowRestartResult>
+    public abstract class RestartFilter : Filter
     {
     }
 }

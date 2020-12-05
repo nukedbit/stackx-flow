@@ -4,15 +4,20 @@ using System.Threading.Tasks;
 
 namespace StackX.Flow
 {
-    class Flow<TInput> : IFlowElement<TInput>
+    public interface IFlow
     {
-        private readonly List<FlowElement> _elements;
+        Task<FlowElementResult> RunAsync(object input);
+    }
+    
+    class Flow : IFlow
+    {
+        private readonly List<IFlowElementExecute> _elements;
         private readonly ErrorHandler _errorHandler;
         private readonly RestartFilter? _restartFilter;
         private readonly DefaultStatusManager _defaultStatusManager;
         private readonly int? _restartCountLimit;
 
-        internal Flow(List<FlowElement> elements, ErrorHandler errorHandler,
+        internal Flow(List<IFlowElementExecute> elements, ErrorHandler errorHandler,
             RestartFilter? restartFilter, DefaultStatusManager defaultStatusManager, int? restartCountLimit)
         {
             _elements = elements;
@@ -22,7 +27,7 @@ namespace StackX.Flow
             _restartCountLimit = restartCountLimit;
         }
 
-        public async Task<FlowElementResult> RunAsync(TInput input)
+        public async Task<FlowElementResult> RunAsync(object input)
         {
             _defaultStatusManager.Reset();
             _defaultStatusManager.SetInitialInput(input);
@@ -62,12 +67,12 @@ namespace StackX.Flow
                 if (!canExecute)
                     continue;
                 
-                if (element is FlowElement flowElement)
+                if (element is IFlowElementExecute flowElement)
                 {
                     var r = await flowElement.ExecuteInternalAsync(result.Result, pipeState);
                     if (r is DecisionFlowElementSuccess decisionResult)
                     {
-                        elements = decisionResult.Result as List<FlowElement>;
+                        elements = decisionResult.Result as List<IFlowElementExecute>;
                         goto decision;
                     }
 
@@ -100,11 +105,11 @@ namespace StackX.Flow
             return result is FlowGoToEndResult || result is FlowRestartResult || result is FlowRestartLimitReachedResult;
         }
 
-        private static async Task<bool> CheckCanExecuteAsync(IFlowElement element, object currentInput, FlowState state)
+        private static async Task<bool> CheckCanExecuteAsync(IFlowElementExecute elementExecute, object currentInput, FlowState state)
         {
             try
             {
-                if (element is CanExecuteFlowElement canExecute)
+                if (elementExecute is IFlowElementCanExecute canExecute)
                 {
                     return await canExecute.CanExecuteInternalAsync(currentInput, state);
                 }

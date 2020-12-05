@@ -8,16 +8,16 @@ namespace StackX.Flow
     
     public abstract class DecisionElement : FlowElement
     {
-        private readonly List<FlowElement> _trueBranch;
-        private readonly List<FlowElement> _falseBranch;
+        private readonly List<IFlowElementExecute> _trueBranch;
+        private readonly List<IFlowElementExecute> _falseBranch;
 
-        protected DecisionElement(List<FlowElement> trueBranch, List<FlowElement> falseBranch)
+        protected DecisionElement(List<IFlowElementExecute> trueBranch, List<IFlowElementExecute> falseBranch)
         {
             _trueBranch = trueBranch;
             _falseBranch = falseBranch;
         }
 
-        internal override async Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
+        protected override async Task<FlowElementResult> OnExecuteAsync(object args, FlowState state)
         {
             try
             {
@@ -41,57 +41,57 @@ namespace StackX.Flow
     {
         private DecisionBuilder() {}
         
-        public static IDecisionBuilder<TArgs> New<TArgs>() => new DecisionBuilder<TArgs>();
+        public static IDecisionBuilder New() => new DecisionBuilderImpl();
     }
 
-    public interface IDecisionBuilder<out TArgs>
+    public interface IDecisionBuilder
     {
-        public IDecisionBranchesBuilder Decision(Func<TArgs, Task<bool>> evaluate);
+        public IDecisionBranchesBuilder Decision(Func<object, Task<bool>> evaluate);
     }
     
     public interface IDecisionBranchesBuilder
     {
-        public IDecisionBuild SetBranches(List<FlowElement> @true,List<FlowElement> @false);
+        public IDecisionBuild SetBranches(List<IFlowElementExecute> @true,List<IFlowElementExecute> @false);
     }
 
     public interface IDecisionBuild
     {
-        FlowElement Build();
+        IFlowElementExecute Build();
     }
     
-    internal class DecisionBuilder<TArgs> : IDecisionBuilder<TArgs>, IDecisionBuild, IDecisionBranchesBuilder
+    internal class DecisionBuilderImpl : IDecisionBuilder, IDecisionBuild, IDecisionBranchesBuilder
     {
-        private Func<TArgs, Task<bool>> _evaluate;
-        private List<FlowElement> _trueBranch = new List<FlowElement>();
-        private List<FlowElement> _falseBranch = new List<FlowElement>();
+        private Func<object, Task<bool>> _evaluate;
+        private List<IFlowElementExecute> _trueBranch = new List<IFlowElementExecute>();
+        private List<IFlowElementExecute> _falseBranch = new List<IFlowElementExecute>();
         
-        public IDecisionBranchesBuilder Decision(Func<TArgs, Task<bool>> evaluate)
+        public IDecisionBranchesBuilder Decision(Func<object, Task<bool>> evaluate)
         {
             _evaluate = evaluate;
             return this;
         }
 
-        public FlowElement Build()
+        public IFlowElementExecute Build()
         {
             return new DecisionImpl(_trueBranch, _falseBranch, _evaluate);
         }
 
         class DecisionImpl : DecisionElement
         {
-            private readonly Func<TArgs, Task<bool>> _evaluate;
+            private readonly Func<object, Task<bool>> _evaluate;
 
-            public DecisionImpl(List<FlowElement> trueBranch, List<FlowElement> falseBranch, Func<TArgs, Task<bool>> evaluate) : base(trueBranch, falseBranch)
+            public DecisionImpl(List<IFlowElementExecute> trueBranch, List<IFlowElementExecute> falseBranch, Func<object, Task<bool>> evaluate) : base(trueBranch, falseBranch)
             {
                 _evaluate = evaluate;
             }
 
             protected override async Task<bool> OnEvaluateAsync(object args, FlowState state)
             {
-                return await _evaluate((TArgs)args);
+                return await _evaluate(args);
             }
         }
 
-        public IDecisionBuild SetBranches(List<FlowElement> @true, List<FlowElement> @false)
+        public IDecisionBuild SetBranches(List<IFlowElementExecute> @true, List<IFlowElementExecute> @false)
         {
             _trueBranch = @true;
             _falseBranch = @false;

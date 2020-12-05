@@ -8,7 +8,7 @@ namespace StackX.Flow
     public sealed class FlowBuilder
     {
         private static readonly ILog _logger = LogManager.GetLogger(typeof(FlowBuilder));
-        readonly List<FlowElement> _pipelineElements = new();
+        readonly List<IFlowElementExecute> _pipelineElements = new();
         private ErrorHandler _errorHandler;
         private RestartFilter? _restartFilter;
         private int? _restartCountLimit;
@@ -40,49 +40,61 @@ namespace StackX.Flow
             }
         }
 
-        private void AddDecorated(FlowElement element)
+        private void AddDecorated(IFlowElementExecute elementExecute)
         {
             if (_logger is null)
             {
-                _pipelineElements.Add(element);
+                _pipelineElements.Add(elementExecute);
                 return;
             }
-            if (element is CanExecuteFlowElement canExecutePipeElement)
+            if (elementExecute is IFlowElementCanExecute canExecutePipeElement)
             {
-                var decorator = new LoggingCanExecuteFlowElementDecorator(canExecutePipeElement);
+                var decorator = new LoggingCanExecuteDecorator(canExecutePipeElement);
                 decorator.SetLogging(IsLoggingEnabled);
                 _pipelineElements.Add(decorator);
             }
             else
             {
-                var decorator = new LoggingFlowElementDecorator(element);
+                var decorator = new LoggingExecuteDecorator(elementExecute);
                 decorator.SetLogging(IsLoggingEnabled);
                 _pipelineElements.Add(decorator);
             }
         }
 
-        public FlowBuilder Add(FlowElement element)
+        public FlowBuilder Add(IFlowElementExecute elementExecute)
         {
             if (UnWrap(_pipelineElements.LastOrDefault()) is DecisionElement)
             {
                 throw new ArgumentException("You can't add another element after a Decision");
             }
-            AddDecorated(element);
+            AddDecorated(elementExecute);
             return this;
         }
 
-        private FlowElement UnWrap(FlowElement element)
+        private IFlowElementExecute UnWrap(IFlowElementExecute elementExecute)
         {
-            if (element is LoggingFlowElementDecorator el)
+            IFlowElementExecute element = elementExecute;
+            while (true)
             {
-                return el.WrappedElement;
+                if (element is LoggingExecuteDecorator ex)
+                {
+                    element = ex.WrappedElement;
+                    continue;
+                } 
+                
+                if (element is LoggingCanExecuteDecorator el)
+                {
+                    element = el.WrappedElement;
+                    continue;
+                }
+                break;
             }
 
             return element;
         }
         
         public FlowBuilder Add<TElement>()
-            where TElement : FlowElement
+            where TElement : IFlowElementExecute
         {
             if (UnWrap(_pipelineElements.LastOrDefault()) is DecisionElement)
             {
@@ -117,10 +129,10 @@ namespace StackX.Flow
             return this;
         }
 
-        public IFlowElement<TInput> Build<TInput>()
+        public IFlow Build<TInput>()
         {
             if (_errorHandler is null) throw new NullReferenceException("Error handler should not be null");
-            return new Flow<TInput>(_pipelineElements, _errorHandler, 
+            return new Flow(_pipelineElements, _errorHandler, 
                 _restartFilter, _defaultStatusManager, _restartCountLimit);
         }
     }

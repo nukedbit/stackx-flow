@@ -18,7 +18,7 @@ namespace StackX.Pipeline.Tests
         [Test]
         public async Task ExecutePipeSuccess()
         {
-            var element = new Mock<FlowElement<string>>();
+            var element = new Mock<FlowElement>();
             element
                 .Protected()
                 .Setup<Task<bool>>("CanExecuteAsync", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
@@ -39,9 +39,9 @@ namespace StackX.Pipeline.Tests
         }
 
 
-        class FailingFlowElement : FlowElement<string>
+        class FailingFlowElement : FlowElement
         {
-            protected override Task<FlowElementResult> OnExecuteAsync(string args, FlowState state)
+            protected override Task<FlowElementResult> OnExecuteAsync(object args, FlowState state)
             {
                 throw new Exception();
             }
@@ -95,8 +95,8 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     DataFlowElementBuilder.New()
                         .SetConnection(db)
-                        .Read<Person, int>()
-                        .Query(args => args.Expression.Where(p => p.Id == args.PipeArgs))
+                        .Read<Person>()
+                        .Query(args => args.Expression.Where(p => p.Id == (int)args.PipeArgs))
                         .List()
                         .Build()
                 ).Build<int>();
@@ -123,8 +123,8 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     DataFlowElementBuilder.New()
                         .SetConnection(db)
-                        .Read<Person, int>()
-                        .Query(args => args.Expression.Where(p => p.Id == args.PipeArgs))
+                        .Read<Person>()
+                        .Query(args => args.Expression.Where(p => p.Id == (int)args.PipeArgs))
                         .OnEmptyOrNullRaiseError()
                         .List()
                         .Build()
@@ -164,7 +164,7 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     DataFlowElementBuilder.New()
                         .SetConnection(db)
-                        .Read<Person, int>()
+                        .Read<Person>()
                         .Query(args => args.Expression.Limit(1))
                         .Single()
                         .Build()
@@ -179,17 +179,17 @@ namespace StackX.Pipeline.Tests
         }
 
 
-        class FakeElementReturnA : FlowElement<int>
+        class FakeElementReturnA : FlowElement
         {
-            protected override async Task<FlowElementResult> OnExecuteAsync(int args, FlowState state)
+            protected override async Task<FlowElementResult> OnExecuteAsync(object args, FlowState state)
             {
                 return this.Success("A");
             }
         }
         
-        class FakeElementReturnB : FlowElement<int>
+        class FakeElementReturnB : FlowElement
         {
-            protected override async Task<FlowElementResult> OnExecuteAsync(int args, FlowState state)
+            protected override async Task<FlowElementResult> OnExecuteAsync(object args, FlowState state)
             {
                 return this.Success("B");
             }
@@ -200,10 +200,10 @@ namespace StackX.Pipeline.Tests
         public async Task FlowShouldReturnA()
         {
             var builder = new FlowBuilder()
-                .Add(DecisionBuilder.New<int>().Decision(async value => value == 1)
+                .Add(DecisionBuilder.New().Decision(async value => (int)value == 1)
                     .SetBranches(
-                        new List<FlowElement> {new FakeElementReturnA()},
-                        new List<FlowElement> {new FakeElementReturnB()}
+                        new List<IFlowElementExecute> {new FakeElementReturnA()},
+                        new List<IFlowElementExecute> {new FakeElementReturnB()}
                     ).Build());
 
             var pipeline = builder.Build<int>();
@@ -220,10 +220,10 @@ namespace StackX.Pipeline.Tests
         public async Task FlowThrowAddingElementAfterDecisionNew()
         {
             Assert.Throws<ArgumentException>(() => new FlowBuilder()
-                .Add(DecisionBuilder.New<int>().Decision(async value => value == 1)
+                .Add(DecisionBuilder.New().Decision(async value => (int)value == 1)
                     .SetBranches(
-                        new List<FlowElement>(),
-                        new List<FlowElement>()).Build()
+                        new List<IFlowElementExecute>(),
+                        new List<IFlowElementExecute>()).Build()
                 )
                 .Add(new FakeElementReturnA())
             ).Message.Should().Be("You can't add another element after a Decision");
@@ -233,10 +233,10 @@ namespace StackX.Pipeline.Tests
         public async Task FlowThrowAddingElementAfterDecisionCreateInstance()
         {
             Assert.Throws<ArgumentException>(() => new FlowBuilder()
-                .Add(DecisionBuilder.New<int>().Decision(async value => value == 1)
+                .Add(DecisionBuilder.New().Decision(async value => (int)value == 1)
                     .SetBranches(
-                        new List<FlowElement>(),
-                        new List<FlowElement>()).Build()
+                        new List<IFlowElementExecute>(),
+                        new List<IFlowElementExecute>()).Build()
                 )
                 .Add<FakeElementReturnA>()
             ).Message.Should().Be("You can't add another element after a Decision");
@@ -260,7 +260,7 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     DataFlowElementBuilder.New()
                         .SetConnection(db)
-                        .Delete<Person, int>()
+                        .Delete<Person>()
                         .DeleteById(i => i)
                         .Build()
                 ).Build<int>();
@@ -297,8 +297,8 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     DataFlowElementBuilder.New()
                         .SetConnection(db)
-                        .Delete<Person, int[]>()
-                        .DeleteByIds(i => i)
+                        .Delete<Person>()
+                        .DeleteByIds(i => (int[])i)
                         .Build()
                 ).Build<int[]>();
 
@@ -338,7 +338,7 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     DataFlowElementBuilder.New()
                         .SetConnection(db)
-                        .Delete<Person, object>()
+                        .Delete<Person>()
                         .DeleteAll()
                         .Build()
                 ).Build<object>();
@@ -378,8 +378,8 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     DataFlowElementBuilder.New()
                         .SetConnection(db)
-                        .Delete<Person, int[]>()
-                        .DeleteBy(ints => person => ints.Contains(person.Id))
+                        .Delete<Person>()
+                        .DeleteBy(ints => person => ((int[])ints).Contains(person.Id))
                         .Build()
                 ).Build<int[]>();
 
@@ -401,9 +401,9 @@ namespace StackX.Pipeline.Tests
             var flow = new FlowBuilder()
                 .Add(
                     FlowElementBuilder
-                        .New<int>()
-                        .Yes()
-                        .OnExecute(async (i, state) =>  i * 2)
+                        .New()
+                        .CanExecuteYes()
+                        .OnExecute(async (i, _) =>  (int)i * 2)
                         .Build()
                 ).Build<int>();
 
@@ -422,9 +422,9 @@ namespace StackX.Pipeline.Tests
             var flow = new FlowBuilder()
                 .Add(
                     FlowElementBuilder
-                        .New<int>()
-                        .CanExecute(async (i, _) => i == 42)
-                        .OnExecute(async (i, _) =>  i * 2)
+                        .New()
+                        .CanExecute(async (i, _) => (int)i == 42)
+                        .OnExecute(async (i, _) =>  (int)i * 2)
                         .Build()
                 ).Build<int>();
 

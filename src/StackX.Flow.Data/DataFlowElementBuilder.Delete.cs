@@ -8,26 +8,26 @@ using ServiceStack.OrmLite;
 
 namespace StackX.Flow.Data
 {
-    public interface IDeleteQueryBuilder<TTable, TArgs>
+    public interface IDeleteQueryBuilder<TTable>
     {
-        public IDeleteQueryBuild<TTable, TArgs> DeleteByIds(Func<TArgs,IEnumerable> mapIds);
-        public IDeleteQueryBuild<TTable, TArgs> DeleteById(Func<TArgs, object> mapId);
-        public IDeleteQueryBuild<TTable, TArgs> DeleteAll();
-        public IDeleteQueryBuild<TTable, TArgs> DeleteBy(Func<TArgs, Expression<Func<TTable, bool>>> expressionBuilder);
+        public IDeleteQueryBuild<TTable> DeleteByIds(Func<object,IEnumerable> mapIds);
+        public IDeleteQueryBuild<TTable> DeleteById(Func<object, object> mapId);
+        public IDeleteQueryBuild<TTable> DeleteAll();
+        public IDeleteQueryBuild<TTable> DeleteBy(Func<object, Expression<Func<TTable, bool>>> expressionBuilder);
     }
 
-    public interface IDeleteQueryBuild<TTable, TArgs>
+    public interface IDeleteQueryBuild<TTable>
     {
         FlowElement Build();
     }
 
     internal abstract record Delete;
-    internal record DeleteById<TArgs>(Func<TArgs, object> MapId) : Delete;
-    internal record DeleteByIds<TArgs>(Func<TArgs,IEnumerable> MapIds) : Delete;
+    internal record DeleteById(Func<object, object> MapId) : Delete;
+    internal record DeleteByIds(Func<object,IEnumerable> MapIds) : Delete;
     internal record DeleteAll : Delete;
-    internal record DeleteAll<TArgs,TTable>(Func<TArgs, Expression<Func<TTable, bool>>> ExpressionBuilder) : Delete;
+    internal record DeleteAll<TTable>(Func<object, Expression<Func<TTable, bool>>> ExpressionBuilder) : Delete;
 
-    internal class DeleteQueryBuilder<TTable, TArgs> : IDeleteQueryBuilder<TTable, TArgs>, IDeleteQueryBuild<TTable, TArgs>
+    internal class DeleteQueryBuilder<TTable> : IDeleteQueryBuilder<TTable>, IDeleteQueryBuild<TTable>
     {
         private readonly IDbConnection? _connection;
         private Delete _delete;
@@ -37,27 +37,27 @@ namespace StackX.Flow.Data
             _connection = connection;
         }
 
-        public IDeleteQueryBuild<TTable, TArgs> DeleteByIds(Func<TArgs,IEnumerable> mapIds)
+        public IDeleteQueryBuild<TTable> DeleteByIds(Func<object,IEnumerable> mapIds)
         {
-            _delete = new DeleteByIds<TArgs>(mapIds);
+            _delete = new DeleteByIds(mapIds);
             return this;
         }
 
-        public IDeleteQueryBuild<TTable, TArgs> DeleteById(Func<TArgs, object> mapId)
+        public IDeleteQueryBuild<TTable> DeleteById(Func<object, object> mapId)
         {
-            _delete = new DeleteById<TArgs>(mapId);
+            _delete = new DeleteById(mapId);
             return this;
         }
 
-        public IDeleteQueryBuild<TTable, TArgs> DeleteAll()
+        public IDeleteQueryBuild<TTable> DeleteAll()
         {
             _delete = new DeleteAll();
             return this;
         }
 
-        public IDeleteQueryBuild<TTable, TArgs> DeleteBy(Func<TArgs, Expression<Func<TTable, bool>>> expressionBuilder)
+        public IDeleteQueryBuild<TTable> DeleteBy(Func<object, Expression<Func<TTable, bool>>> expressionBuilder)
         {
-            _delete = new DeleteAll<TArgs,TTable>(expressionBuilder);
+            _delete = new DeleteAll<TTable>(expressionBuilder);
             return this;
         }
 
@@ -67,7 +67,7 @@ namespace StackX.Flow.Data
         }
         
         
-        private class DeleteFlowElement : FlowElement<TArgs>
+        private class DeleteFlowElement : FlowElement
         {
             private readonly Delete _delete;
             private IDbConnection _connection;
@@ -85,14 +85,15 @@ namespace StackX.Flow.Data
                     return _connection ??= HostContext.AppHost.GetDbConnection();
                 }
             }
-            protected override async Task<FlowElementResult> OnExecuteAsync(TArgs args, FlowState state)
+
+            protected override async Task<FlowElementResult> OnExecuteAsync(object args, FlowState state)
             {
                 object result = _delete switch
                 {
-                    DeleteById<TArgs> byId => await Db.DeleteByIdAsync<TTable>(byId.MapId(args)),
-                    DeleteByIds<TArgs> byIds => await Db.DeleteByIdsAsync<TTable>(byIds.MapIds(args)),
+                    DeleteById byId => await Db.DeleteByIdAsync<TTable>(byId.MapId(args)),
+                    DeleteByIds byIds => await Db.DeleteByIdsAsync<TTable>(byIds.MapIds(args)),
                     DeleteAll _ => await Db.DeleteAllAsync<TTable>(),
-                    DeleteAll<TArgs,TTable> all => await Db.DeleteAsync(all.ExpressionBuilder(args)),
+                    DeleteAll<TTable> all => await Db.DeleteAsync(all.ExpressionBuilder(args)),
                     _ => new NotImplementedException("Delete action not implemented")
                 };
                 return new FlowSuccessResult

@@ -8,19 +8,19 @@ using ServiceStack.OrmLite;
 
 namespace StackX.Flow.Data
 {
-    public interface IWriteQueryBuilder<TTable, TArgs>
+    public interface IWriteQueryBuilder<TTable>
     {
-        public IWriteQueryWriteActionMethodBuilder<TTable, TArgs> Map(Func<TArgs, List<TTable>> mapAction);
-        public IWriteQueryWriteActionMethodBuilder<TTable, TArgs> Map(Func<TArgs, TTable> mapAction);
+        public IWriteQueryWriteActionMethodBuilder<TTable> Map(Func<object, List<TTable>> mapAction);
+        public IWriteQueryWriteActionMethodBuilder<TTable> Map(Func<object, TTable> mapAction);
     }
 
-    public interface IWriteQueryWriteActionMethodBuilder<TTable, TArgs>
+    public interface IWriteQueryWriteActionMethodBuilder<TTable>
     {
         public IWriteQueryBuilderBuild Save();
         public IWriteQueryBuilderBuild Update();
         public IWriteQueryBuilderBuild Insert();
-        public IWriteQueryBuilderBuild Decision(Func<TArgs, TTable, WriteAction> decision);
-        public IWriteQueryBuilderBuild Decision(Func<TArgs, List<TTable>, WriteAction> decision);
+        public IWriteQueryBuilderBuild Decision(Func<object, TTable, WriteAction> decision);
+        public IWriteQueryBuilderBuild Decision(Func<object, List<TTable>, WriteAction> decision);
     }
 
     public interface IWriteQueryBuilderBuild
@@ -36,15 +36,15 @@ namespace StackX.Flow.Data
 
     public record WriteActionUpdate() : WriteAction;
 
-    internal record WriteActionDecisionSingle<TArgs, TTable>(Func<TArgs, TTable, WriteAction> Decision) : WriteAction;
+    internal record WriteActionDecisionSingle<TTable>(Func<object, TTable, WriteAction> Decision) : WriteAction;
 
-    internal record WriteActionDecisionList<TArgs, TTable>
-        (Func<TArgs, List<TTable>, WriteAction> Decision) : WriteAction;
+    internal record WriteActionDecisionList<TTable>
+        (Func<object, List<TTable>, WriteAction> Decision) : WriteAction;
 
 
 
-    public class DataQueryWriteBuilder<TTable, TArgs> : IWriteQueryBuilder<TTable, TArgs>,
-        IWriteQueryWriteActionMethodBuilder<TTable, TArgs>, IWriteQueryBuilderBuild
+    public class DataQueryWriteBuilder<TTable> : IWriteQueryBuilder<TTable>,
+        IWriteQueryWriteActionMethodBuilder<TTable>, IWriteQueryBuilderBuild
     {
         private readonly IDbConnection? _connection;
         private object _mapAction;
@@ -55,13 +55,13 @@ namespace StackX.Flow.Data
             _connection = connection;
         }
 
-        public IWriteQueryWriteActionMethodBuilder<TTable, TArgs> Map(Func<TArgs, List<TTable>> mapAction)
+        public IWriteQueryWriteActionMethodBuilder<TTable> Map(Func<object, List<TTable>> mapAction)
         {
             _mapAction = mapAction;
             return this;
         }
 
-        public IWriteQueryWriteActionMethodBuilder<TTable, TArgs> Map(Func<TArgs, TTable> mapAction)
+        public IWriteQueryWriteActionMethodBuilder<TTable> Map(Func<object, TTable> mapAction)
         {
             _mapAction = mapAction;
             return this;
@@ -85,15 +85,15 @@ namespace StackX.Flow.Data
             return this;
         }
 
-        public IWriteQueryBuilderBuild Decision(Func<TArgs, TTable, WriteAction> decision)
+        public IWriteQueryBuilderBuild Decision(Func<object, TTable, WriteAction> decision)
         {
-            _writeAction = new WriteActionDecisionSingle<TArgs, TTable>(decision);
+            _writeAction = new WriteActionDecisionSingle<TTable>(decision);
             return this;
         }
 
-        public IWriteQueryBuilderBuild Decision(Func<TArgs, List<TTable>, WriteAction> decision)
+        public IWriteQueryBuilderBuild Decision(Func<object, List<TTable>, WriteAction> decision)
         {
-            _writeAction = new WriteActionDecisionList<TArgs, TTable>(decision);
+            _writeAction = new WriteActionDecisionList<TTable>(decision);
             return this;
         }
 
@@ -102,7 +102,7 @@ namespace StackX.Flow.Data
             return new FlowElementImpl(_connection, _mapAction, _writeAction);
         }
 
-        private class FlowElementImpl : FlowElement<TArgs>
+        private class FlowElementImpl : FlowElement
         {
             private IDbConnection? _connection;
             private readonly object _mapAction;
@@ -120,14 +120,14 @@ namespace StackX.Flow.Data
                 get { return _connection ??= HostContext.AppHost.GetDbConnection(); }
             }
 
-            protected override async Task<FlowElementResult> OnExecuteAsync(TArgs args, FlowState state)
+            protected override async Task<FlowElementResult> OnExecuteAsync(object args, FlowState state)
             {
                 var result = (_mapAction as Delegate)!.DynamicInvoke(args);
 
                 var action = (_writeAction, result) switch
                 {
-                    (WriteActionDecisionSingle<TArgs, TTable> single, TTable record) => single.Decision(args, record),
-                    (WriteActionDecisionList<TArgs, TTable> list, List<TTable> records) => list.Decision(args, records),
+                    (WriteActionDecisionSingle<TTable> single, TTable record) => single.Decision(args, record),
+                    (WriteActionDecisionList<TTable> list, List<TTable> records) => list.Decision(args, records),
                     (WriteAction act, _) => act,
                 };
                 switch ((result, action))

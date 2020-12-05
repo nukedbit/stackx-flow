@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 
 namespace StackX.Flow
 {
-    internal class LoggingFlowElementDecorator : FlowElement, ILoggingFlowElementDecorator
+    internal class LoggingExecuteDecorator : IFlowElementExecute, ILoggingFlowElementDecorator
     {
         private readonly ILog _logger;
-        private readonly FlowElement _element;
+        private readonly IFlowElementExecute _element;
 
-        internal FlowElement WrappedElement => _element;
+        internal IFlowElementExecute WrappedElement => _element;
 
-        public LoggingFlowElementDecorator(FlowElement element)
+        public LoggingExecuteDecorator(IFlowElementExecute element)
         {
             _logger = LogManager.GetLogger(element.GetType());
             _element = element;
@@ -23,7 +23,7 @@ namespace StackX.Flow
         public bool IsLoggingEnabled { get; private set; }
 
 
-        internal override async Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
+        public async Task<FlowElementResult> ExecuteInternalAsync(object args, FlowState state)
         {
             if (!IsLoggingEnabled)
                 return await _element.ExecuteInternalAsync(args, state);
