@@ -13,9 +13,6 @@ namespace StackX.Flow
     /// <typeparam name="TSArgs"></typeparam> 
     public abstract class FlowElement : IFlowElementExecute, IFlowElementCanExecute
     {
-        protected virtual Converter[] Converters => new Converter[0];
-
-
         /// <summary>
         /// Determine if the task can be executed by default it's always true
         /// </summary>
@@ -30,11 +27,7 @@ namespace StackX.Flow
 
         public async Task<bool> CanExecuteInternalAsync(object args, FlowState state)
         {
-            if (Converters.Length == 0)
-                return await CanExecuteAsync(args, state);
-            var converter = Converters.SingleOrDefault(t => t.CanConvert(args.GetType()));
-            var input = converter == null ? args : converter.Convert(args);
-            return await CanExecuteAsync(input, state);
+            return await CanExecuteAsync(args, state);
         }
 
         /// <summary>
@@ -49,9 +42,7 @@ namespace StackX.Flow
         {
             try
             {
-                var converter = Converters.SingleOrDefault(t => t.CanConvert(args.GetType()));
-                var input = converter == null ? args : converter.Convert(args);
-                return await OnExecuteAsync(input, state);
+                return await OnExecuteAsync(args, state);
             }
             catch (Exception ex)
             {
