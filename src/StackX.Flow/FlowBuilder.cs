@@ -75,11 +75,7 @@ namespace StackX.Flow
         {
             foreach (var elementExecute in elements)
             {
-                if (UnWrap(_pipelineElements.LastOrDefault()) is DecisionElement)
-                {
-                    throw new ArgumentException("You can't add another element after a Decision");
-                }
-                AddDecorated(elementExecute);
+                Add(elementExecute);
             }
             
             return this;
