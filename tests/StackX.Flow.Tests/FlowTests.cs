@@ -21,7 +21,7 @@ namespace StackX.Pipeline.Tests
             var element = new Mock<FlowElement>();
             element
                 .Protected()
-                .Setup<Task<bool>>("OnCanExecuteAsync", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
+                .Setup<Task<CanExecuteResult>>("OnCanExecuteAsync", ItExpr.IsAny<string>(), ItExpr.IsAny<FlowState>())
                 .ReturnsAsync(true);
             element
                 .Protected()
@@ -402,7 +402,7 @@ namespace StackX.Pipeline.Tests
                 .Add(
                     FlowElementBuilder
                         .New()
-                        .CanExecuteYes()
+                        .CanExecuteContinue()
                         .OnExecute(async (i, _) =>  (int)i * 2)
                         .Build()
                 ).Build();
@@ -435,6 +435,77 @@ namespace StackX.Pipeline.Tests
                 .BeOfType<FlowSuccessResult>()
                 .Which.Result
                 .Should().Be(4);
+        }
+        
+        [Test]
+        public async Task SimpleFlowElementCanExecuteSkip()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New()
+                        .CanExecute(async (i, _) => CanExecuteResult.Skip)
+                        .OnExecute(async (i, _) =>  (int)i * 2)
+                        .Build()
+                ).Build();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowSuccessResult>()
+                .Which.Result
+                .Should().Be(4);
+        }
+        
+        [Test]
+        public async Task SimpleFlowElementCanExecuteError()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New()
+                        .CanExecute(async (i, _) => CanExecuteResult.Error("error"))
+                        .OnExecute(async (i, _) =>  throw new Exception("Should not execute this"))
+                        .Build()
+                ).Build();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowErrorResult>()
+                .Which.ErrorObject
+                .Should().Be("error");
+        }
+        
+        [Test]
+        public async Task SimpleFlowElementCanExecuteErrorShouldNotExecuteSecondStep()
+        {
+            var flow = new FlowBuilder()
+                .Add(
+                    FlowElementBuilder
+                        .New()
+                        .CanExecute(async (i, _) => CanExecuteResult.Error("error"))
+                        .OnExecute(async (i, _) =>  throw new Exception("Should not execute step 1"))
+                        .Build()
+                )
+                .Add(
+                    FlowElementBuilder
+                        .New()
+                        .CanExecute(async (i, _) => CanExecuteResult.Continue)
+                        .OnExecute(async (i, _) =>  throw new Exception("Should not execute step 2"))
+                        .Build()
+                    )
+                .Build();
+
+            var flowResult = await flow.RunAsync(4);
+
+            flowResult
+                .Should()
+                .BeOfType<FlowErrorResult>()
+                .Which.ErrorObject
+                .Should().Be("error");
         }
     }
 }

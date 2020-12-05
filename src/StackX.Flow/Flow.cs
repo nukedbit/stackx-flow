@@ -63,10 +63,21 @@ namespace StackX.Flow
             while (enumerator.MoveNext())
             {
                 var element = enumerator.Current;
-                bool canExecute = await CheckCanExecuteAsync(element, result.Result, pipeState);
-                if (!canExecute)
+                var canExecute = await CheckCanExecuteAsync(element, result.Result, pipeState);
+                if (canExecute == CanExecuteResult.Skip)
                     continue;
-                
+                if (canExecute is CanExecuteErrorResult canErrorResult)
+                {
+                    result = await _errorHandler.ExecuteInternalAsync(new FlowErrorResult()
+                    {
+                        ErrorObject = canErrorResult.ErrorResult
+                    });
+                    if (result is FlowErrorResult)
+                    {
+                        break;
+                    }
+                }
+
                 if (element is IFlowElementExecute flowElement)
                 {
                     var r = await flowElement.ExecuteAsync(result.Result, pipeState);
@@ -105,7 +116,7 @@ namespace StackX.Flow
             return result is FlowGoToEndResult || result is FlowRestartResult || result is FlowRestartLimitReachedResult;
         }
 
-        private static async Task<bool> CheckCanExecuteAsync(IFlowElementExecute elementExecute, object currentInput, FlowState state)
+        private static async Task<CanExecuteResult> CheckCanExecuteAsync(IFlowElementExecute elementExecute, object currentInput, FlowState state)
         {
             try
             {
@@ -113,7 +124,7 @@ namespace StackX.Flow
                 {
                     return await canExecute.CanExecuteAsync(currentInput, state);
                 }
-                return true;
+                return CanExecuteResult.Continue;
             }
             catch (TargetInvocationException ex)
             {

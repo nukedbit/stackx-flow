@@ -42,7 +42,7 @@ namespace StackX.Flow
             }
         }
 
-        public async Task<bool> CanExecuteAsync(object args, FlowState state)
+        public async Task<CanExecuteResult> CanExecuteAsync(object args, FlowState state)
         {
             if (!IsLoggingEnabled)
                 return await _element.CanExecuteAsync(args, state);

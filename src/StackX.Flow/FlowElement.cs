@@ -19,13 +19,13 @@ namespace StackX.Flow
         /// <param name="args">Task Argument Object</param>
         /// <param name="state">Pipe Status Object</param>
         /// <returns></returns>
-        protected virtual Task<bool> OnCanExecuteAsync(object args, FlowState state)
+        protected virtual Task<CanExecuteResult> OnCanExecuteAsync(object args, FlowState state)
         {
-            return Task.FromResult(true);
+            return Task.FromResult(CanExecuteResult.Continue);
         }
 
 
-        public async Task<bool> CanExecuteAsync(object args, FlowState state)
+        public async Task<CanExecuteResult> CanExecuteAsync(object args, FlowState state)
         {
             return await OnCanExecuteAsync(args, state);
         }

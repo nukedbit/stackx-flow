@@ -11,17 +11,17 @@ namespace StackX.Flow
     
     internal class FlowElementBuilderImpl: IFlowElementBuilderCanExecute, IFlowElementBuilderOnExecute, IFlowElementBuilderBuild
     {
-        private Func<object, FlowState, Task<bool>> _canExecute;
+        private Func<object, FlowState, Task<CanExecuteResult>> _canExecute;
         private Func<object, FlowState, Task<object>> _onExecute;
          
         
-        public IFlowElementBuilderOnExecute CanExecuteYes()
+        public IFlowElementBuilderOnExecute CanExecuteContinue()
         {
-            _canExecute = async (_,_) => true;
+            _canExecute = async (_,_) => CanExecuteResult.Continue;
             return this;
         }
 
-        public IFlowElementBuilderOnExecute CanExecute(Func<object, FlowState, Task<bool>> canExecute)
+        public IFlowElementBuilderOnExecute CanExecute(Func<object, FlowState, Task<CanExecuteResult>> canExecute)
         {
             _canExecute = canExecute;
             return this;
@@ -40,16 +40,16 @@ namespace StackX.Flow
         
         internal class FlowElementImpl : FlowElement
         {
-            private readonly Func<object, FlowState, Task<bool>> _canExecute;
+            private readonly Func<object, FlowState, Task<CanExecuteResult>> _canExecute;
             private readonly Func<object, FlowState, Task<object>> _onExecute;
 
-            public FlowElementImpl(Func<object, FlowState,Task<bool>> canExecute, Func<object,FlowState,Task<object>> onExecute)
+            public FlowElementImpl(Func<object, FlowState,Task<CanExecuteResult>> canExecute, Func<object,FlowState,Task<object>> onExecute)
             {
                 _canExecute = canExecute;
                 _onExecute = onExecute;
             }
 
-            protected override async Task<bool> OnCanExecuteAsync(object args, FlowState state)
+            protected override async Task<CanExecuteResult> OnCanExecuteAsync(object args, FlowState state)
             {
                 return await _canExecute(args, state);
             }
@@ -68,8 +68,8 @@ namespace StackX.Flow
 
     public interface IFlowElementBuilderCanExecute
     {
-        public IFlowElementBuilderOnExecute CanExecuteYes();
-        public IFlowElementBuilderOnExecute CanExecute(Func<object, FlowState, Task<bool>> canExecute);
+        public IFlowElementBuilderOnExecute CanExecuteContinue();
+        public IFlowElementBuilderOnExecute CanExecute(Func<object, FlowState, Task<CanExecuteResult>> canExecute);
     }
     
     public interface IFlowElementBuilderOnExecute
