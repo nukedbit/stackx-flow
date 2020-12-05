@@ -129,7 +129,7 @@ namespace StackX.Flow
             return this;
         }
 
-        public IFlow Build<TInput>()
+        public IFlow Build()
         {
             if (_errorHandler is null) throw new NullReferenceException("Error handler should not be null");
             return new Flow(_pipelineElements, _errorHandler, 

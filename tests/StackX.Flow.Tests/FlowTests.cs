@@ -31,7 +31,7 @@ namespace StackX.Pipeline.Tests
              var builder = new FlowBuilder()
                  .Add(element.Object);
 
-             var pipeline = builder.Build<string>();
+             var pipeline = builder.Build();
 
              var result = await pipeline.RunAsync("test");
 
@@ -53,7 +53,7 @@ namespace StackX.Pipeline.Tests
             var builder = new FlowBuilder()
                 .Add(new FailingFlowElement());
 
-            var pipeline = builder.Build<string>();
+            var pipeline = builder.Build();
 
             var result = await pipeline.RunAsync("test");
 
@@ -99,7 +99,7 @@ namespace StackX.Pipeline.Tests
                         .Query(args => args.Expression.Where(p => p.Id == (int)args.PipeArgs))
                         .List()
                         .Build()
-                ).Build<int>();
+                ).Build();
 
             var result = await pipeline.RunAsync(2);
 
@@ -128,7 +128,7 @@ namespace StackX.Pipeline.Tests
                         .OnEmptyOrNullRaiseError()
                         .List()
                         .Build()
-                ).Build<int>();
+                ).Build();
 
             var result = await pipeline.RunAsync(2);
 
@@ -168,7 +168,7 @@ namespace StackX.Pipeline.Tests
                         .Query(args => args.Expression.Limit(1))
                         .Single()
                         .Build()
-                ).Build<int>();
+                ).Build();
 
             var result = await pipeline.RunAsync(2);
 
@@ -206,7 +206,7 @@ namespace StackX.Pipeline.Tests
                         new List<IFlowElementExecute> {new FakeElementReturnB()}
                     ).Build());
 
-            var pipeline = builder.Build<int>();
+            var pipeline = builder.Build();
 
             var result = await pipeline.RunAsync(1);
 
@@ -263,7 +263,7 @@ namespace StackX.Pipeline.Tests
                         .Delete<Person>()
                         .DeleteById(i => i)
                         .Build()
-                ).Build<int>();
+                ).Build();
 
             await flow.RunAsync(1);
 
@@ -300,7 +300,7 @@ namespace StackX.Pipeline.Tests
                         .Delete<Person>()
                         .DeleteByIds(i => (int[])i)
                         .Build()
-                ).Build<int[]>();
+                ).Build();
 
             await flow.RunAsync(new[] {1, 2});
 
@@ -341,7 +341,7 @@ namespace StackX.Pipeline.Tests
                         .Delete<Person>()
                         .DeleteAll()
                         .Build()
-                ).Build<object>();
+                ).Build();
 
             await flow.RunAsync("anything");
 
@@ -381,7 +381,7 @@ namespace StackX.Pipeline.Tests
                         .Delete<Person>()
                         .DeleteBy(ints => person => ((int[])ints).Contains(person.Id))
                         .Build()
-                ).Build<int[]>();
+                ).Build();
 
             await flow.RunAsync(new[] {1, 2});
 
@@ -405,7 +405,7 @@ namespace StackX.Pipeline.Tests
                         .CanExecuteYes()
                         .OnExecute(async (i, _) =>  (int)i * 2)
                         .Build()
-                ).Build<int>();
+                ).Build();
 
             var flowResult = await flow.RunAsync(4);
 
@@ -426,7 +426,7 @@ namespace StackX.Pipeline.Tests
                         .CanExecute(async (i, _) => (int)i == 42)
                         .OnExecute(async (i, _) =>  (int)i * 2)
                         .Build()
-                ).Build<int>();
+                ).Build();
 
             var flowResult = await flow.RunAsync(4);
 
