@@ -65,7 +65,7 @@ steps:
         /o:nukedbit \
         /k:nukedbit_stackx-flow \
         /d:sonar.host.url=https://sonarcloud.io \
-	      /d:sonar.cs.opencover.reportsPaths="tests/results/StackX.Flow.Tests.xml"
+        /d:sonar.cs.opencover.reportsPaths="tests/results/StackX.Flow.Tests.xml"
 
 - task: Bash@3
   displayName: 'Build'
