@@ -14,7 +14,7 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  JAVA_HOME: $($env:JAVA_HOME_11_X64)
+  JAVA_HOME: $(JAVA_HOME_11_X64)
 steps:
 - task: UseDotNet@2
   displayName: "install .net 3.1"
