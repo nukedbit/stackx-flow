@@ -1,0 +1,91 @@
+# ASP.NET Core
+# Build and test ASP.NET Core projects targeting .NET Core.
+# Add steps that run tests, create a NuGet package, deploy, and more:
+# https://docs.microsoft.com/azure/devops/pipelines/languages/dotnet-core
+
+trigger:
+- master
+- development
+pr:
+- master
+
+pool:
+  vmImage: 'ubuntu-18.04'
+
+variables:
+  buildConfiguration: 'Release'
+steps:
+- task: UseDotNet@2
+  displayName: "install .net 3.1"
+  inputs:
+    packageType: 'runtime'
+    version: '3.1.8'
+
+- task: UseDotNet@2
+  displayName: 'install .net from global json'
+  inputs:
+    packageType: 'sdk'
+    useGlobalJson: true
+- task: DotNetCoreCLI@2
+  displayName: 'Install Nuke.GlobalTool'
+  inputs:
+    command: 'custom'
+    custom: 'tool'
+    arguments: 'install Nuke.GlobalTool --global'
+
+- task: DotNetCoreCLI@2
+  displayName: 'Install SonarGlobal Tool'
+  inputs:
+    command: 'custom'
+    custom: 'tool'
+    arguments: 'install dotnet-sonarscanner --version 5.0.4 --global'    
+- task: Bash@3
+  continueOnError: true
+  displayName: 'Clear NuGet Caches'
+  inputs:
+    targetType: 'inline'
+    script: 'dotnet nuget locals all --clear'
+
+- task: NuGetCommand@2
+  inputs:
+    command: 'custom'
+    arguments: 'sources add -Name NukedBitOpen -Source https://pkgs.dev.azure.com/nukedbitorg/d4447947-ab69-4316-bc44-f5b5051314e9/_packaging/NukedBitOpen/nuget/v3/index.json -username nukedbit -password $(NUGET_API_KEY)'
+
+- task: Bash@3
+  displayName: 'Begin sonar scan'
+  inputs:
+    targetType: 'inline'
+    script: |
+      dotnet sonarscanner begin \
+        /o:nukedbit \
+        /k:nukedbit_stackx \
+        /d:sonar.host.url=https://sonarcloud.io
+
+- task: Bash@3
+  displayName: 'Build'
+  continueOnError: true
+  inputs:
+    filePath: './build.sh' 
+    arguments: '-target Pack'
+
+- task: Bash@3
+  displayName: 'End sonar scan'
+  inputs:
+    targetType: 'inline'
+    script: 'dotnet sonarscanner end'
+
+- task: NuGetCommand@2
+  displayName: 'Publish to Azure Artifacts'
+  inputs:
+    command: 'push'
+    packagesToPush: '$(Build.SourcesDirectory)/artifacts/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
+    nuGetFeedType: 'internal'
+    publishVstsFeed: 'd4447947-ab69-4316-bc44-f5b5051314e9/3ec913cd-65d1-4e65-8fec-8592d02f4902'
+
+- task: PublishTestResults@2
+  inputs:
+    testResultsFormat: 'VSTest'
+    testResultsFiles: '**/TestResults.xml'
+    mergeTestResults: true
+    searchFolder: '$(System.DefaultWorkingDirectory)/tests'
+    testRunTitle: 'StackX Tests'
