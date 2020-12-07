@@ -1,0 +1,165 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<TestRun id="ae613486-b6c3-4c2e-85b6-2b99a7239435" name="@ApplePie 2020-12-08 00:10:17" xmlns="http://microsoft.com/schemas/VisualStudio/TeamTest/2010">
+  <Times creation="2020-12-08T00:10:17.4555980+01:00" queuing="2020-12-08T00:10:17.4555980+01:00" start="2020-12-08T00:10:16.4516800+01:00" finish="2020-12-08T00:10:17.5026340+01:00" />
+  <TestSettings name="default" id="4f4d9438-2b1f-458b-a501-99348ecbd99c">
+    <Deployment runDeploymentRoot="_ApplePie_2020-12-08_00_10_17" />
+  </TestSettings>
+  <Results>
+    <UnitTestResult executionId="39016ebb-bd0c-42f5-9524-949b97cce467" testId="ba6dd653-7295-ba92-8d4d-e43374e924a4" testName="SimpleFlowElementBuilderExecute" computerName="ApplePie" duration="00:00:00.0029030" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="39016ebb-bd0c-42f5-9524-949b97cce467" />
+    <UnitTestResult executionId="c156436b-5c54-4c4a-b46a-1bf95f00c112" testId="1155ad45-f13d-e652-1070-c9c237d9fa4c" testName="ExecuteQueryAsSingleReturnOneResult" computerName="ApplePie" duration="00:00:00.0069750" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="c156436b-5c54-4c4a-b46a-1bf95f00c112" />
+    <UnitTestResult executionId="6e11b3d0-78f6-4a78-91e0-5449e7b2d480" testId="17538568-6065-5136-c880-6ee91833e674" testName="ExecuteQueryTaskReturnOneResult" computerName="ApplePie" duration="00:00:00.0024830" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="6e11b3d0-78f6-4a78-91e0-5449e7b2d480" />
+    <UnitTestResult executionId="667a143b-9618-49df-9635-95f920c112e8" testId="ae918a3f-ba6b-bc5d-03a8-38aeecf70b7d" testName="FlowDeleteByExpression" computerName="ApplePie" duration="00:00:00.0065230" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="667a143b-9618-49df-9635-95f920c112e8" />
+    <UnitTestResult executionId="15b5edc0-9f68-456c-9b51-01d4bca3e579" testId="54cac21d-0bcf-51de-eed1-0c8ddb8477b6" testName="FlowDeleteAll" computerName="ApplePie" duration="00:00:00.0193200" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="15b5edc0-9f68-456c-9b51-01d4bca3e579" />
+    <UnitTestResult executionId="049d8e55-8869-4493-a203-43345a31a70f" testId="8a96af2c-95e3-b071-799a-88e95fd2254c" testName="FlowDeleteByIds" computerName="ApplePie" duration="00:00:00.0050120" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="049d8e55-8869-4493-a203-43345a31a70f" />
+    <UnitTestResult executionId="a13a34f8-7647-4eab-957d-3f51754b3442" testId="0756fc0c-4590-2a36-a889-1de14b14dc93" testName="SimpleFlowElementMapOnError" computerName="ApplePie" duration="00:00:00.0011869" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a13a34f8-7647-4eab-957d-3f51754b3442" />
+    <UnitTestResult executionId="791915b7-6112-4676-ad26-571a22bcb831" testId="ed4384f3-e67f-5937-736c-59e92740ffed" testName="ExecuteCustomDbStep(1)" computerName="ApplePie" duration="00:00:00.3105760" startTime="2020-12-08T00:10:16.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="791915b7-6112-4676-ad26-571a22bcb831" />
+    <UnitTestResult executionId="1f7cba29-f9d1-4cca-bc3f-f9695f06a63f" testId="42baab9d-c135-8ce6-c8a3-6e700ea07a66" testName="SimpleFlowElementMap" computerName="ApplePie" duration="00:00:00.0023290" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="1f7cba29-f9d1-4cca-bc3f-f9695f06a63f" />
+    <UnitTestResult executionId="5cc9f859-be70-4e80-a9ba-55525f001fae" testId="07af55d5-8cdb-9666-6376-c9d5349bfdad" testName="FlowShouldReturnA" computerName="ApplePie" duration="00:00:00.0024380" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="5cc9f859-be70-4e80-a9ba-55525f001fae" />
+    <UnitTestResult executionId="a589d899-0265-483f-8664-8b178d9a354c" testId="c4951256-65b1-da58-4939-1a3d0e365cdd" testName="FlowThrowAddingElementAfterDecisionNew" computerName="ApplePie" duration="00:00:00.0005150" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a589d899-0265-483f-8664-8b178d9a354c" />
+    <UnitTestResult executionId="ed22c6de-0cf1-4e09-adab-3391b66d234a" testId="f7888033-1432-988e-75ce-2a5bc5346f31" testName="FlowThrowAddingElementAfterDecisionCreateInstance" computerName="ApplePie" duration="00:00:00.0044360" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ed22c6de-0cf1-4e09-adab-3391b66d234a" />
+    <UnitTestResult executionId="2afaea6a-0d38-47cf-a21e-6f76015b6488" testId="fe7a731d-fcd5-bdaa-40a3-8cc33ae43973" testName="SimpleFlowElementCanExecuteNo" computerName="ApplePie" duration="00:00:00.0007330" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="2afaea6a-0d38-47cf-a21e-6f76015b6488" />
+    <UnitTestResult executionId="acc74ca2-fdaf-4d59-8167-9f0cbb17a917" testId="d8b263ec-8fc1-8ecd-e3bf-d3b82a1132b7" testName="ExecuteCustomDbStep(2)" computerName="ApplePie" duration="00:00:00.0022120" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="acc74ca2-fdaf-4d59-8167-9f0cbb17a917" />
+    <UnitTestResult executionId="a39da158-32ca-49bf-85b3-fb335c1a8753" testId="a8b06f53-e3b3-384e-6b73-a5756d4bc5cb" testName="ExecutePipeSuccess" computerName="ApplePie" duration="00:00:00.0890420" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="a39da158-32ca-49bf-85b3-fb335c1a8753" />
+    <UnitTestResult executionId="f844efde-2c4b-4f69-863a-cd8ec1190dde" testId="ddbee0ad-7908-b28f-b67d-8409735c4602" testName="SimpleFlowElementCanExecuteSkip" computerName="ApplePie" duration="00:00:00.0008580" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="f844efde-2c4b-4f69-863a-cd8ec1190dde" />
+    <UnitTestResult executionId="515e0f61-d88c-4d69-969b-fbaf27a56f18" testId="c86aa7f3-1349-0931-1975-799d50780bec" testName="SimpleFlowElementCanExecuteError" computerName="ApplePie" duration="00:00:00.0010940" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="515e0f61-d88c-4d69-969b-fbaf27a56f18" />
+    <UnitTestResult executionId="e6fb893c-13eb-41f8-85a6-dccd7b2458e6" testId="4d2dc84e-5abb-f67b-0778-ac51e6ea5b22" testName="ExecuteQueryTaskOnEmptyResultReturnError" computerName="ApplePie" duration="00:00:00.0088920" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="e6fb893c-13eb-41f8-85a6-dccd7b2458e6" />
+    <UnitTestResult executionId="59d0cdc3-0e8a-443d-bdb3-8d4a1433e5cb" testId="333faded-9739-1ccc-817f-c2c89689d72f" testName="SimpleFlowElementCanExecuteErrorShouldNotExecuteSecondStep" computerName="ApplePie" duration="00:00:00.0009360" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="59d0cdc3-0e8a-443d-bdb3-8d4a1433e5cb" />
+    <UnitTestResult executionId="ca5964e6-53c5-4e28-8af0-c55161b95ded" testId="6bcdb31b-aafe-1c03-785f-a59c3325ec99" testName="ExecuteCustomDbStep(3)" computerName="ApplePie" duration="00:00:00.0009360" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="ca5964e6-53c5-4e28-8af0-c55161b95ded" />
+    <UnitTestResult executionId="0037afb6-16eb-49cc-90b5-b3afe81e068f" testId="4c71e81a-2323-9eff-8754-55826beb96c1" testName="SimpleFlowElementMapOnSuccess" computerName="ApplePie" duration="00:00:00.0062080" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="0037afb6-16eb-49cc-90b5-b3afe81e068f" />
+    <UnitTestResult executionId="24ab54a9-4694-4587-91e0-aca68da99477" testId="10097abc-106e-e625-a48d-0026cf745f9e" testName="ExecutePipeFailShouldReturnError" computerName="ApplePie" duration="00:00:00.0009730" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="24ab54a9-4694-4587-91e0-aca68da99477" />
+    <UnitTestResult executionId="785b0bf1-ee29-4ee0-88af-09d27ade3b94" testId="0bd00dc5-885a-86bd-5158-5a7294271090" testName="FlowDeleteById" computerName="ApplePie" duration="00:00:00.0024390" startTime="2020-12-08T00:10:17.0000000+01:00" endTime="2020-12-08T00:10:17.0000000+01:00" testType="13cdc9d9-ddb5-4fa4-a97d-d965ccfc6d4b" outcome="Passed" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" relativeResultsDirectory="785b0bf1-ee29-4ee0-88af-09d27ade3b94" />
+  </Results>
+  <TestDefinitions>
+    <UnitTest name="FlowDeleteAll" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="54cac21d-0bcf-51de-eed1-0c8ddb8477b6">
+      <Execution id="15b5edc0-9f68-456c-9b51-01d4bca3e579" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="FlowDeleteAll" />
+    </UnitTest>
+    <UnitTest name="ExecuteQueryTaskReturnOneResult" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="17538568-6065-5136-c880-6ee91833e674">
+      <Execution id="6e11b3d0-78f6-4a78-91e0-5449e7b2d480" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecuteQueryTaskReturnOneResult" />
+    </UnitTest>
+    <UnitTest name="ExecuteQueryTaskOnEmptyResultReturnError" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="4d2dc84e-5abb-f67b-0778-ac51e6ea5b22">
+      <Execution id="e6fb893c-13eb-41f8-85a6-dccd7b2458e6" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecuteQueryTaskOnEmptyResultReturnError" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementMapOnSuccess" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="4c71e81a-2323-9eff-8754-55826beb96c1">
+      <Execution id="0037afb6-16eb-49cc-90b5-b3afe81e068f" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementMapOnSuccess" />
+    </UnitTest>
+    <UnitTest name="FlowDeleteByExpression" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="ae918a3f-ba6b-bc5d-03a8-38aeecf70b7d">
+      <Execution id="667a143b-9618-49df-9635-95f920c112e8" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="FlowDeleteByExpression" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementMapOnError" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="0756fc0c-4590-2a36-a889-1de14b14dc93">
+      <Execution id="a13a34f8-7647-4eab-957d-3f51754b3442" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementMapOnError" />
+    </UnitTest>
+    <UnitTest name="FlowDeleteByIds" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="8a96af2c-95e3-b071-799a-88e95fd2254c">
+      <Execution id="049d8e55-8869-4493-a203-43345a31a70f" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="FlowDeleteByIds" />
+    </UnitTest>
+    <UnitTest name="ExecuteCustomDbStep(1)" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="ed4384f3-e67f-5937-736c-59e92740ffed">
+      <Execution id="791915b7-6112-4676-ad26-571a22bcb831" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecuteCustomDbStep(1)" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementCanExecuteError" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="c86aa7f3-1349-0931-1975-799d50780bec">
+      <Execution id="515e0f61-d88c-4d69-969b-fbaf27a56f18" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementCanExecuteError" />
+    </UnitTest>
+    <UnitTest name="ExecutePipeSuccess" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="a8b06f53-e3b3-384e-6b73-a5756d4bc5cb">
+      <Execution id="a39da158-32ca-49bf-85b3-fb335c1a8753" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecutePipeSuccess" />
+    </UnitTest>
+    <UnitTest name="FlowShouldReturnA" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="07af55d5-8cdb-9666-6376-c9d5349bfdad">
+      <Execution id="5cc9f859-be70-4e80-a9ba-55525f001fae" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="FlowShouldReturnA" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementCanExecuteErrorShouldNotExecuteSecondStep" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="333faded-9739-1ccc-817f-c2c89689d72f">
+      <Execution id="59d0cdc3-0e8a-443d-bdb3-8d4a1433e5cb" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementCanExecuteErrorShouldNotExecuteSecondStep" />
+    </UnitTest>
+    <UnitTest name="FlowDeleteById" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="0bd00dc5-885a-86bd-5158-5a7294271090">
+      <Execution id="785b0bf1-ee29-4ee0-88af-09d27ade3b94" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="FlowDeleteById" />
+    </UnitTest>
+    <UnitTest name="ExecuteQueryAsSingleReturnOneResult" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="1155ad45-f13d-e652-1070-c9c237d9fa4c">
+      <Execution id="c156436b-5c54-4c4a-b46a-1bf95f00c112" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecuteQueryAsSingleReturnOneResult" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementCanExecuteSkip" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="ddbee0ad-7908-b28f-b67d-8409735c4602">
+      <Execution id="f844efde-2c4b-4f69-863a-cd8ec1190dde" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementCanExecuteSkip" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementCanExecuteNo" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="fe7a731d-fcd5-bdaa-40a3-8cc33ae43973">
+      <Execution id="2afaea6a-0d38-47cf-a21e-6f76015b6488" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementCanExecuteNo" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementMap" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="42baab9d-c135-8ce6-c8a3-6e700ea07a66">
+      <Execution id="1f7cba29-f9d1-4cca-bc3f-f9695f06a63f" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementMap" />
+    </UnitTest>
+    <UnitTest name="FlowThrowAddingElementAfterDecisionNew" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="c4951256-65b1-da58-4939-1a3d0e365cdd">
+      <Execution id="a589d899-0265-483f-8664-8b178d9a354c" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="FlowThrowAddingElementAfterDecisionNew" />
+    </UnitTest>
+    <UnitTest name="ExecuteCustomDbStep(2)" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="d8b263ec-8fc1-8ecd-e3bf-d3b82a1132b7">
+      <Execution id="acc74ca2-fdaf-4d59-8167-9f0cbb17a917" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecuteCustomDbStep(2)" />
+    </UnitTest>
+    <UnitTest name="ExecuteCustomDbStep(3)" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="6bcdb31b-aafe-1c03-785f-a59c3325ec99">
+      <Execution id="ca5964e6-53c5-4e28-8af0-c55161b95ded" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecuteCustomDbStep(3)" />
+    </UnitTest>
+    <UnitTest name="SimpleFlowElementBuilderExecute" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="ba6dd653-7295-ba92-8d4d-e43374e924a4">
+      <Execution id="39016ebb-bd0c-42f5-9524-949b97cce467" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="SimpleFlowElementBuilderExecute" />
+    </UnitTest>
+    <UnitTest name="ExecutePipeFailShouldReturnError" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="10097abc-106e-e625-a48d-0026cf745f9e">
+      <Execution id="24ab54a9-4694-4587-91e0-aca68da99477" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="ExecutePipeFailShouldReturnError" />
+    </UnitTest>
+    <UnitTest name="FlowThrowAddingElementAfterDecisionCreateInstance" storage="/users/sebastian/developer/src/stackx-flow/tests/stackx.flow.tests/bin/debug/net5.0/stackx.flow.tests.dll" id="f7888033-1432-988e-75ce-2a5bc5346f31">
+      <Execution id="ed22c6de-0cf1-4e09-adab-3391b66d234a" />
+      <TestMethod codeBase="/Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll" adapterTypeName="executor://nunit3testexecutor/" className="StackX.Pipeline.Tests.PipeLinesTests" name="FlowThrowAddingElementAfterDecisionCreateInstance" />
+    </UnitTest>
+  </TestDefinitions>
+  <TestEntries>
+    <TestEntry testId="ba6dd653-7295-ba92-8d4d-e43374e924a4" executionId="39016ebb-bd0c-42f5-9524-949b97cce467" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="1155ad45-f13d-e652-1070-c9c237d9fa4c" executionId="c156436b-5c54-4c4a-b46a-1bf95f00c112" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="17538568-6065-5136-c880-6ee91833e674" executionId="6e11b3d0-78f6-4a78-91e0-5449e7b2d480" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ae918a3f-ba6b-bc5d-03a8-38aeecf70b7d" executionId="667a143b-9618-49df-9635-95f920c112e8" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="54cac21d-0bcf-51de-eed1-0c8ddb8477b6" executionId="15b5edc0-9f68-456c-9b51-01d4bca3e579" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="8a96af2c-95e3-b071-799a-88e95fd2254c" executionId="049d8e55-8869-4493-a203-43345a31a70f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0756fc0c-4590-2a36-a889-1de14b14dc93" executionId="a13a34f8-7647-4eab-957d-3f51754b3442" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ed4384f3-e67f-5937-736c-59e92740ffed" executionId="791915b7-6112-4676-ad26-571a22bcb831" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="42baab9d-c135-8ce6-c8a3-6e700ea07a66" executionId="1f7cba29-f9d1-4cca-bc3f-f9695f06a63f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="07af55d5-8cdb-9666-6376-c9d5349bfdad" executionId="5cc9f859-be70-4e80-a9ba-55525f001fae" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c4951256-65b1-da58-4939-1a3d0e365cdd" executionId="a589d899-0265-483f-8664-8b178d9a354c" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="f7888033-1432-988e-75ce-2a5bc5346f31" executionId="ed22c6de-0cf1-4e09-adab-3391b66d234a" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="fe7a731d-fcd5-bdaa-40a3-8cc33ae43973" executionId="2afaea6a-0d38-47cf-a21e-6f76015b6488" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="d8b263ec-8fc1-8ecd-e3bf-d3b82a1132b7" executionId="acc74ca2-fdaf-4d59-8167-9f0cbb17a917" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="a8b06f53-e3b3-384e-6b73-a5756d4bc5cb" executionId="a39da158-32ca-49bf-85b3-fb335c1a8753" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="ddbee0ad-7908-b28f-b67d-8409735c4602" executionId="f844efde-2c4b-4f69-863a-cd8ec1190dde" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="c86aa7f3-1349-0931-1975-799d50780bec" executionId="515e0f61-d88c-4d69-969b-fbaf27a56f18" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4d2dc84e-5abb-f67b-0778-ac51e6ea5b22" executionId="e6fb893c-13eb-41f8-85a6-dccd7b2458e6" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="333faded-9739-1ccc-817f-c2c89689d72f" executionId="59d0cdc3-0e8a-443d-bdb3-8d4a1433e5cb" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="6bcdb31b-aafe-1c03-785f-a59c3325ec99" executionId="ca5964e6-53c5-4e28-8af0-c55161b95ded" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="4c71e81a-2323-9eff-8754-55826beb96c1" executionId="0037afb6-16eb-49cc-90b5-b3afe81e068f" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="10097abc-106e-e625-a48d-0026cf745f9e" executionId="24ab54a9-4694-4587-91e0-aca68da99477" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestEntry testId="0bd00dc5-885a-86bd-5158-5a7294271090" executionId="785b0bf1-ee29-4ee0-88af-09d27ade3b94" testListId="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+  </TestEntries>
+  <TestLists>
+    <TestList name="Results Not in a List" id="8c84fa94-04c1-424b-9868-57a2d4851a1d" />
+    <TestList name="All Loaded Results" id="19431567-8539-422a-85d7-44ee4e166bda" />
+  </TestLists>
+  <ResultSummary outcome="Completed">
+    <Counters total="23" executed="23" passed="23" failed="0" error="0" timeout="0" aborted="0" inconclusive="0" passedButRunAborted="0" notRunnable="0" notExecuted="0" disconnected="0" warning="0" completed="0" inProgress="0" pending="0" />
+    <Output>
+      <StdOut>NUnit Adapter 3.16.1.0: Test execution started
+Running all tests in /Users/sebastian/Developer/src/stackx-flow/tests/StackX.Flow.Tests/bin/Debug/net5.0/StackX.Flow.Tests.dll
+   NUnit3TestExecutor converted 23 of 23 NUnit test cases
+NUnit Adapter 3.16.1.0: Test execution complete
+</StdOut>
+    </Output>
+  </ResultSummary>
+</TestRun>

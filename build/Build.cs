@@ -6,12 +6,14 @@ using Nuke.Common.Git;
 using Nuke.Common.IO;
 using Nuke.Common.ProjectModel;
 using Nuke.Common.Tooling;
+using Nuke.Common.Tools.Coverlet;
 using Nuke.Common.Tools.DotCover;
 using Nuke.Common.Tools.DotNet;
 using Nuke.Common.Tools.GitVersion;
 using Nuke.Common.Utilities.Collections;
 using Nuke.Common.Tools.NUnit;
 using Nuke.Common.Tools.OpenCover;
+using Nuke.Common.Tools.ReportGenerator;
 using static Nuke.Common.EnvironmentInfo;
 using static Nuke.Common.IO.FileSystemTasks;
 using static Nuke.Common.IO.PathConstruction;
@@ -41,6 +43,7 @@ class Build : NukeBuild
 
     AbsolutePath SourceDirectory => RootDirectory / "src";
     AbsolutePath TestsDirectory => RootDirectory / "tests";
+    AbsolutePath TestsResultsDirectory => RootDirectory / "tests" / "results" ;
     AbsolutePath ArtifactsDirectory => RootDirectory / "artifacts";
 
     Target Clean => _ => _
@@ -77,15 +80,24 @@ class Build : NukeBuild
         .DependsOn(Compile)
         .Executes(() =>
         {
-            DotNetTest(s => s
-                .SetProjectFile(Solution)
-                .SetConfiguration(Configuration)
-                .SetProcessArgumentConfigurator(config => {
-                    return config.Add($"--logger trx;LogFileName=\"TestResults.xml\"");
-                })
-                .EnableNoRestore()
-                .EnableNoBuild()
-            );
+            // --collect:\"XPlat Code Coverage\"
+
+            
+            DotNetTest( _ => 
+                _.SetConfiguration(Configuration)
+                .SetNoBuild(true)
+                .ResetVerbosity()
+                .SetResultsDirectory(TestsResultsDirectory)
+                .EnableCollectCoverage()
+                .SetCoverletOutputFormat(CoverletOutputFormat.opencover)
+                .SetProjectFile(TestsDirectory / "StackX.Flow.Tests" / "StackX.Flow.Tests.csproj")
+                .SetLogger($"trx;LogFileName=StackX.Flow.Tests.trx")
+                .SetCoverletOutput( TestsResultsDirectory / "StackX.Flow.Tests.xml"));
+            
+            // ReportGeneratorTasks.ReportGenerator(s => s
+            //     .SetTargetDirectory(TestsResultsDirectory)
+            //     .SetFramework("net5.0")
+            //     .SetReports(TestsDirectory.GlobFiles("**/coverage.cobertura.xml").Select( p=> p.ToString())));
         });
 
     Target Pack => _ => _
