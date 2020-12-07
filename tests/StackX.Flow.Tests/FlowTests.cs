@@ -590,17 +590,17 @@ namespace StackX.Pipeline.Tests
 
             var db = await factory.OpenDbConnectionAsync();
             db.CreateTable<Person>();
-            db.Save(new Person()
+            db.Save(new Person
             {
                 Name = "Mario"
             });
 
-            db.Save(new Person()
+            db.Save(new Person
             {
                 Name = "Princess"
             });
             
-            db.Save(new Person()
+            db.Save(new Person
             {
                 Name = "Luigi"
             });
