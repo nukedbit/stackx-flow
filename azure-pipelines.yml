@@ -14,8 +14,12 @@ pool:
 
 variables:
   buildConfiguration: 'Release'
-  JAVA_HOME: $(JAVA_HOME_11_X64)
 steps:
+- task: JavaToolInstaller@0
+  inputs:
+    versionSpec: '11'
+    jdkArchitectureOption: 'x64'
+    jdkSourceOption: 'PreInstalled'
 - task: UseDotNet@2
   displayName: "install .net 3.1"
   inputs:
