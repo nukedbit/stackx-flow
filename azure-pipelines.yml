@@ -63,7 +63,7 @@ steps:
     script: |
       dotnet sonarscanner begin \
         /o:nukedbit \
-        /k:nukedbit_stackx \
+        /k:nukedbit_stackx-flow \
         /d:sonar.host.url=https://sonarcloud.io
 
 - task: Bash@3
