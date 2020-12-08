@@ -12,6 +12,8 @@
 
 # project specific
 .sonarqube
+.idea
+.results
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
