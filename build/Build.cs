@@ -87,7 +87,9 @@ class Build : NukeBuild
         .Executes(() =>
         {
 
-            var reportPaths = TestResultDirectory.GlobFiles("*.xml").Select(p => p.ToString()).Join(",");
+            var reportPaths = TestProjects
+                .Select(p => TestResultDirectory / $"{p.Name}.xml")
+                .Select(p => p.ToString()).Join(",");
             SonarScannerBegin(config => config.SetFramework("net5.0")
                 .SetProcessArgumentConfigurator(cfg => cfg.Add("/o:nukedbit")
                     .Add("/k:nukedbit_stackx-flow")
