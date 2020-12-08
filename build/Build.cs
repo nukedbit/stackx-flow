@@ -29,6 +29,7 @@ using static Nuke.Common.CI.AzurePipelines.AzurePipelines;
 using static Nuke.Common.Tools.SonarScanner.SonarScannerTasks;
 using static Nuke.Common.Tools.ReportGenerator.ReportGeneratorTasks;
 using Nuke.Common.Tools.ReportGenerator;
+using Nuke.Common.Utilities;
 
 [CheckBuildProjectConfigurations]
 [UnsetVisualStudioEnvironmentVariables]
@@ -85,12 +86,14 @@ class Build : NukeBuild
         .Requires(() => GitRepository.IsOnDevelopBranch() || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
+
+            var reportPaths = TestResultDirectory.GlobFiles("*.xml").Select(p => p.ToString()).Join(",");
             SonarScannerBegin(config => config.SetFramework("net5.0")
                 .SetProcessArgumentConfigurator(cfg => cfg.Add("/o:nukedbit")
                     .Add("/k:nukedbit_stackx-flow")
                     .Add(GitVersion.BranchName != MasterBranch  ? $"/d:sonar.branch.name=${GitVersion.BranchName}" : "")
                     .Add("/d:sonar.host.url=https://sonarcloud.io")
-                    .Add("/d:sonar.cs.opencover.reportsPaths=\"tests/results/StackX.Flow.Tests.xml\"")));
+                    .Add($"/d:sonar.cs.opencover.reportsPaths=\"{reportPaths}\"")));
         });
 
     Target Compile => _ => _
