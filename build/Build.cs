@@ -88,7 +88,7 @@ class Build : NukeBuild
             SonarScannerBegin(config => config.SetFramework("net5.0")
                 .SetProcessArgumentConfigurator(cfg => cfg.Add("/o:nukedbit")
                     .Add("/k:nukedbit_stackx-flow")
-                    .Add($"/d:sonar.branch.name=${GitVersion.BranchName}")
+                    .Add(GitVersion.BranchName != MasterBranch  ? $"/d:sonar.branch.name=${GitVersion.BranchName}" : "")
                     .Add("/d:sonar.host.url=https://sonarcloud.io")
                     .Add("/d:sonar.cs.opencover.reportsPaths=\"tests/results/StackX.Flow.Tests.xml\"")));
         });
