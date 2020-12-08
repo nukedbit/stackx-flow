@@ -55,29 +55,13 @@ steps:
   inputs:
     command: 'custom'
     arguments: 'sources add -Name NukedBitOpen -Source https://pkgs.dev.azure.com/nukedbitorg/d4447947-ab69-4316-bc44-f5b5051314e9/_packaging/NukedBitOpen/nuget/v3/index.json -username nukedbit -password $(NUGET_API_KEY)'
-
-- task: Bash@3
-  displayName: 'Begin sonar scan'
-  inputs:
-    targetType: 'inline'
-    script: |
-      dotnet sonarscanner begin \
-        /o:nukedbit \
-        /k:nukedbit_stackx-flow \
-        /d:sonar.host.url=https://sonarcloud.io \
-        /d:sonar.cs.opencover.reportsPaths="tests/results/StackX.Flow.Tests.xml"
+    
 - task: Bash@3
   displayName: 'Build'
   continueOnError: true
   inputs:
     filePath: './build.sh' 
-    arguments: '-target Pack'
-
-- task: Bash@3
-  displayName: 'End sonar scan'
-  inputs:
-    targetType: 'inline'
-    script: 'dotnet sonarscanner end'
+    arguments: '-target PushNuGet'
 
 - task: NuGetCommand@2
   displayName: 'Publish to Azure Artifacts'
@@ -86,11 +70,3 @@ steps:
     packagesToPush: '$(Build.SourcesDirectory)/artifacts/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
     nuGetFeedType: 'internal'
     publishVstsFeed: 'd4447947-ab69-4316-bc44-f5b5051314e9/3ec913cd-65d1-4e65-8fec-8592d02f4902'
-
-- task: PublishTestResults@2
-  inputs:
-    testResultsFormat: 'VSTest'
-    testResultsFiles: '**/TestResults.xml'
-    mergeTestResults: true
-    searchFolder: '$(System.DefaultWorkingDirectory)/tests'
-    testRunTitle: 'StackX Tests'
