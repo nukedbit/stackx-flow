@@ -61,7 +61,7 @@ steps:
   continueOnError: true
   inputs:
     filePath: './build.sh' 
-    arguments: '-target PushNuGet'
+    arguments: '-target Pack'
 
 - task: NuGetCommand@2
   displayName: 'Publish to Azure Artifacts'
