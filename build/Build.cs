@@ -80,11 +80,15 @@ class Build : NukeBuild
         });
     
     Target SonarQubeBegin =>  _ => _
+        .DependsOn(Clean)
+        .ProceedAfterFailure()
+        .Requires(() => GitRepository.IsOnDevelopBranch() || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
             SonarScannerBegin(config => config.SetFramework("net5.0")
                 .SetProcessArgumentConfigurator(cfg => cfg.Add("/o:nukedbit")
                     .Add("/k:nukedbit_stackx-flow")
+                    .Add($"/d:sonar.branch.name=${GitVersion.BranchName}")
                     .Add("/d:sonar.host.url=https://sonarcloud.io")
                     .Add("/d:sonar.cs.opencover.reportsPaths=\"tests/results/StackX.Flow.Tests.xml\"")));
         });
@@ -150,12 +154,17 @@ class Build : NukeBuild
         });
     
     Target SonarQubeEnd =>  _ => _
+        .ProceedAfterFailure()
         .DependsOn(Compile, Test, Coverage)
         .TriggeredBy(Coverage)
+        .Requires(() => GitRepository.IsOnDevelopBranch() || GitRepository.IsOnMasterBranch())
         .Executes(() =>
         {
             SonarScannerEnd(config => config.SetFramework("net5.0"));
         });
+    
+    
+    IReadOnlyCollection<AbsolutePath> PackageFiles => ArtifactsDirectory.GlobFiles("*.nupkg");
     
     Target Pack => _ => _
         .DependsOn(Test, Coverage, SonarQubeEnd)
@@ -174,18 +183,26 @@ class Build : NukeBuild
                 .EnableNoRestore());
         });
         
+    
+        string AzureNuGetPackageSource => GetVariable<string>("NUGET_NUKEDBIT_FEED");
+        string AzureNuGetApiKey => GetVariable<string>("NUGET_API_KEY");
+        string AzureNuGetUserName => GetVariable<string>("NUGET_USERNAME");
+    
         Target PushNuGet => _ => _
             .DependsOn(Pack)
             .Executes(() => {
-                GlobFiles(ArtifactsDirectory, "*.nupkg").NotEmpty()
-               // .Where(x => !x.EndsWith("symbols.nupkg"))
-                .ForEach(x =>
-                {
-                    DotNetNuGetPush(s => s
-                        .SetTargetPath(x)
-                        .SetApiKey(Environment.GetEnvironmentVariable("NUGET_API_KEY"))
-                        .SetSource(Environment.GetEnvironmentVariable("NUGET_NUKEDBIT_FEED")));
-                });
                 
+                DotNetNuGetAddSource(_ => _
+                    .SetSource(AzureNuGetPackageSource)
+                    .SetUsername(AzureNuGetUserName)
+                    .SetPassword(AzureNuGetApiKey));
+
+                DotNetNuGetPush(_ => _
+                        .SetSource(AzureNuGetPackageSource)
+                        .SetApiKey(AzureNuGetApiKey)
+                        .CombineWith(PackageFiles, (_, v) => _
+                            .SetTargetPath(v)),
+                    degreeOfParallelism: 5,
+                    completeOnFailure: true);
             });
 }
