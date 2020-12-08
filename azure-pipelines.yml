@@ -61,12 +61,4 @@ steps:
   continueOnError: true
   inputs:
     filePath: './build.sh' 
-    arguments: '-target Pack'
-
-- task: NuGetCommand@2
-  displayName: 'Publish to Azure Artifacts'
-  inputs:
-    command: 'push'
-    packagesToPush: '$(Build.SourcesDirectory)/artifacts/**/*.nupkg;!$(Build.ArtifactStagingDirectory)/**/*.symbols.nupkg'
-    nuGetFeedType: 'internal'
-    publishVstsFeed: 'd4447947-ab69-4316-bc44-f5b5051314e9/3ec913cd-65d1-4e65-8fec-8592d02f4902'
+    arguments: '-target PushNuGet'
