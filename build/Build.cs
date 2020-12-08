@@ -194,6 +194,7 @@ class Build : NukeBuild
                 
                 DotNetNuGetAddSource(_ => _
                     .SetSource(AzureNuGetPackageSource)
+                    .SetStorePasswordInClearText(true)
                     .SetUsername(AzureNuGetUserName)
                     .SetPassword(AzureNuGetApiKey));
 
